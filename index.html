@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet DBD</title>
+    <!-- <link rel="stylesheet" href="styles.css"> Optional: Link to a CSS file for styling -->
+</head>
+
+<body>
+    <header>
+        <h1>Bienvenue dans le Projet DBD</h1>
+    </header>
+    <main>
+        <input type="file" id="zipInput" accept=".zip">
+        <div id="status"></div>
+        <div id="output"></div>
+        <div id="compteur"></div>
+
+        <!-- <button id="processAllChannels">Importer Channels</button> -->
+        <button id="afficherChannelAleatoire"">🎲 Channel Aléatoire</button>
+
+        <button id="garderChannel">✅ Garder</button>
+        <button id="supprimerChannel">🗑️ Supprimer</button>
+        <button id="annulerDerniereAction">↩️ Annuler dernière action</button>
+
+        <button id="telechargerChannelsToDelete">📥 Télécharger la liste des suppressions</button>
+
+        <!-- <button id="afficherProfilUtilisateur">👤 Voir profil</button> -->
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
