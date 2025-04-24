@@ -2,7 +2,7 @@ import { getAllFromIndexedDB, getItemFromIndexedDB, STORE_CHANNELS, STORE_MESSAG
 
 // 📜 Affichage d'un channel aléatoire
 export async function afficherChannelAleatoire() {
-	const output = document.getElementById("output");
+	const output = document.getElementById("outputConv");
 	output.textContent = "";
 
 	try {
@@ -36,6 +36,24 @@ Nombre de messages : ${msg?.messages.length || 0}
 			});
 		} else {
 			output.textContent += "\nAucun message dans ce channel.\n";
+		}
+
+		const nameChannel = document.getElementById("nameChannel");
+		const channelId = document.getElementById("channelId");
+		const indexChannel = document.getElementById("indexChannel");
+		const nbMessages = document.getElementById("nbMessages");
+
+		if (nameChannel) {
+			nameChannel.textContent = `${channel.guild?.name || "aucune"}`;
+		}
+		if (channelId) {
+			channelId.textContent = `Channel ID : ${channel.id}`;
+		}
+		if (indexChannel) {
+			indexChannel.textContent = `${indexLabel}`;
+		}
+		if (nbMessages) {
+			nbMessages.textContent = `Nombre de messages : ${msg?.messages.length || 0}`;
 		}
 
 		await updateCompteurRestants();
