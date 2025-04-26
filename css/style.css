@@ -1,0 +1,10 @@
+.message {
+    margin: 0; /* Supprime les marges autour des divs */
+    padding: 5px 0; /* Ajoute un léger espacement interne si nécessaire */
+}
+
+.message .timestamp,
+.message .content {
+    margin: 0; /* Supprime les marges des paragraphes */
+    padding: 0; /* Supprime les espacements internes */
+}

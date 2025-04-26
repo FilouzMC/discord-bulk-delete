@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projet DBD</title>
-    <!-- <link rel="stylesheet" href="styles.css"> Optional: Link to a CSS file for styling -->
+    <link rel="stylesheet" href="./css/style.css"/>
 </head>
 
 <body>
@@ -17,6 +17,7 @@
         <div id="status"></div>
         <div id="output"></div>
         <div id="compteur"></div>
+        <div id="typeCompteur"></div>
 
         <!-- <button id="processAllChannels">Importer Channels</button> -->
         <button id="afficherChannelAleatoire"">🎲 Channel Aléatoire</button>
@@ -27,13 +28,21 @@
 
         <button id="telechargerChannelsToDelete">📥 Télécharger la liste des suppressions</button>
 
+        <label for="channelType">Choisissez un type de channel :</label>
+        <select id="channelType">
+            <option value="DM">DM</option>
+            <option value="GROUP_DM">Group DM</option>
+            <option value="GUILD_TEXT">Guild Text</option>
+            <option value="PUBLIC_THREAD">Guild Thread</option>
+        </select>
+
         <div id="showChannel">
-            <p id="nameChannel"></p>
+            <p id="indexLabel"></p>
             <p id="channelId"></p>
             <p id="indexChannel"></p>
             <p id="nbMessages"></p>
 
-            <p id="outputConv"></p>
+            <pre id="outputConv"></pre>
         </div>
     </main>
 

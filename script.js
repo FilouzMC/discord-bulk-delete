@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('telechargerChannelsToDelete').addEventListener('click', telechargerChannelsToDelete);
     // document.getElementById('afficherProfilUtilisateur').addEventListener('click', afficherChannelAleatoire);
 
+    window.selectedOption = "DM"; // Valeur par défaut
     updateCompteurRestants();
 });
 
