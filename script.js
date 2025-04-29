@@ -1,7 +1,7 @@
 import { processAllChannels } from './js/fileProcessing.js';
 import { afficherChannelAleatoire, updateCompteurRestants } from './js/randomChannel.js';
 import { garderChannel, supprimerChannel, annulerDerniereAction } from './js/transfer.js';
-import { telechargerChannelsToDelete } from './js/db.js';
+import { telechargerChannelsToDelete, importerBaseDeDonnees, exporterBaseDeDonnees } from './js/db.js';
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('supprimerChannel').addEventListener('click', supprimerChannel);
     document.getElementById('annulerDerniereAction').addEventListener('click', annulerDerniereAction);
     document.getElementById('telechargerChannelsToDelete').addEventListener('click', telechargerChannelsToDelete);
-    // document.getElementById('afficherProfilUtilisateur').addEventListener('click', afficherChannelAleatoire);
-
+    document.getElementById('exportDb').addEventListener('click', exporterBaseDeDonnees);
+    document.getElementById('importDb').addEventListener('click', importerBaseDeDonnees);
     window.selectedOption = "DM"; // Valeur par défaut
     updateCompteurRestants();
 });

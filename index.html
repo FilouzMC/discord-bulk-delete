@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projet DBD</title>
-    <link rel="stylesheet" href="./css/style.css"/>
+    <link rel="stylesheet" href="./css/style.css" />
 </head>
 
 <body>
@@ -22,11 +22,20 @@
         <!-- <button id="processAllChannels">Importer Channels</button> -->
         <button id="afficherChannelAleatoire"">🎲 Channel Aléatoire</button>
 
-        <button id="garderChannel">✅ Garder</button>
+        <button id=" garderChannel">✅ Garder</button>
         <button id="supprimerChannel">🗑️ Supprimer</button>
         <button id="annulerDerniereAction">↩️ Annuler dernière action</button>
 
         <button id="telechargerChannelsToDelete">📥 Télécharger la liste des suppressions</button>
+        <button id="exportDb">Exporter la base de données</button>
+        <button id="importDb" class="btn btn-secondary">Importer une base de données</button>
+
+        <!-- Input caché pour la sélection de fichier -->
+        <input type="file" id="importFile" accept="application/json" style="display: none;">
+
+        <!-- Message de statut pour l'utilisateur -->
+        <div id="importStatus" style="margin-top: 10px;"></div>
+
 
         <label for="channelType">Choisissez un type de channel :</label>
         <select id="channelType">
