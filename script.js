@@ -11,8 +11,34 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('supprimerChannel').addEventListener('click', supprimerChannel);
     document.getElementById('annulerDerniereAction').addEventListener('click', annulerDerniereAction);
     document.getElementById('telechargerChannelsToDelete').addEventListener('click', telechargerChannelsToDelete);
-    document.getElementById('exportDb').addEventListener('click', exporterBaseDeDonnees);
-    document.getElementById('importDb').addEventListener('click', importerBaseDeDonnees);
+    document.getElementById('exportButton').addEventListener('click', exporterBaseDeDonnees);
+
+    // Bouton d'import - déclenche l'input file caché
+    document.getElementById('importButton').addEventListener('click', function () {
+        document.getElementById('importFile').click();
+    });
+
+    // Gestion de la sélection du fichier
+    document.getElementById('importFile').addEventListener('change', async function (event) {
+        const statusEl = document.getElementById('importStatus');
+        statusEl.textContent = "Importation en cours...";
+        statusEl.style.color = "blue";
+
+        try {
+            await importerBaseDeDonnees(this);
+            statusEl.textContent = "Importation réussie! Rechargement de la page...";
+            statusEl.style.color = "green";
+
+            // Recharger la page après un délai court
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        } catch (error) {
+            statusEl.textContent = `Erreur: ${error}`;
+            statusEl.style.color = "red";
+        }
+    });
+
     window.selectedOption = "DM"; // Valeur par défaut
     updateCompteurRestants();
 });

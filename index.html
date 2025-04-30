@@ -27,15 +27,17 @@
         <button id="annulerDerniereAction">↩️ Annuler dernière action</button>
 
         <button id="telechargerChannelsToDelete">📥 Télécharger la liste des suppressions</button>
-        <button id="exportDb">Exporter la base de données</button>
-        <button id="importDb" class="btn btn-secondary">Importer une base de données</button>
+        <!-- Boutons d'importation/exportation -->
+        <div class="backup-controls">
+            <button id="exportButton" class="btn btn-primary">Exporter la base de données</button>
+            <button id="importButton" class="btn btn-secondary">Importer une base de données</button>
 
-        <!-- Input caché pour la sélection de fichier -->
-        <input type="file" id="importFile" accept="application/json" style="display: none;">
+            <!-- Input caché pour la sélection de fichier -->
+            <input type="file" id="importFile" accept="application/json">
 
-        <!-- Message de statut pour l'utilisateur -->
-        <div id="importStatus" style="margin-top: 10px;"></div>
-
+            <!-- Message de statut pour l'utilisateur -->
+            <div id="importStatus" style="margin-top: 10px;"></div>
+        </div>
 
         <label for="channelType">Choisissez un type de channel :</label>
         <select id="channelType">
