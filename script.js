@@ -2,6 +2,8 @@ import { processAllChannels } from './js/fileProcessing.js';
 import { afficherChannelAleatoire, updateCompteurRestants } from './js/randomChannel.js';
 import { garderChannel, supprimerChannel, annulerDerniereAction } from './js/transfer.js';
 import { telechargerChannelsToDelete, importerBaseDeDonnees, exporterBaseDeDonnees } from './js/db.js';
+import { checkLocalStorageKeyAndRedirect } from './js/redirects.js';
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -41,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.selectedOption = "DM"; // Valeur par défaut
     updateCompteurRestants();
+    afficherChannelAleatoire();
 });
 
 document.getElementById('zipInput').addEventListener('change', async function (event) {

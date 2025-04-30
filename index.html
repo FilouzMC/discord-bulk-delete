@@ -10,8 +10,26 @@
 
 <body>
     <header>
-        <h1>Bienvenue dans le Projet DBD</h1>
+        <!-- Menu de navigation -->
+        <div class="navbar">
+            <div class="logo">
+                <img src="/img/logo.png" alt="Logo"> <!-- Remplacez par le chemin de votre logo -->
+                <span class="">Discord Bulk Delete</span>
+            </div>
+            <div class="links">
+                <a class="dl" href="#" id="telechargerChannelsToDelete">
+                    <img src="/img/icons/database-check.svg" alt="Database Check">
+                    Télécharger la liste des suppressions</a>
+                <!-- <a href="#link2">Lien 2</a>
+                <a href="#link3">Lien 3</a> -->
+            </div>
+            <div class="info">
+                <span id="channelsRestants">Channels restant : x/x</span> |
+                <span id="channelsType">Channels pour le type xx : xx</span>
+            </div>
+        </div>
     </header>
+
     <main>
         <input type="file" id="zipInput" accept=".zip">
         <div id="status"></div>
@@ -19,21 +37,14 @@
         <div id="compteur"></div>
         <div id="typeCompteur"></div>
 
-        <!-- <button id="processAllChannels">Importer Channels</button> -->
-        <button id="afficherChannelAleatoire"">🎲 Channel Aléatoire</button>
-
-        <button id="garderChannel">✅ Garder</button>
-        <button id="supprimerChannel">🗑️ Supprimer</button>
-        <button id="annulerDerniereAction">↩️ Annuler dernière action</button>
-
-        <button id="telechargerChannelsToDelete">📥 Télécharger la liste des suppressions</button>
+        <!-- <button id="telechargerChannelsToDelete">📥 Télécharger la liste des suppressions</button> -->
         <!-- Boutons d'importation/exportation -->
         <div class="backup-controls">
             <button id="exportButton" class="btn btn-primary">Exporter la base de données</button>
             <button id="importButton" class="btn btn-secondary">Importer une base de données</button>
 
             <!-- Input caché pour la sélection de fichier -->
-            <input type="file" id="importFile" accept="application/json">
+            <input type="file" id="importFile" accept="application/json" style="display: none;" />
 
             <!-- Message de statut pour l'utilisateur -->
             <div id="importStatus" style="margin-top: 10px;"></div>
@@ -47,13 +58,24 @@
             <option value="PUBLIC_THREAD">Guild Thread</option>
         </select>
 
-        <div id="showChannel">
-            <p id="indexLabel"></p>
-            <p id="channelId"></p>
-            <p id="indexChannel"></p>
-            <p id="nbMessages"></p>
+        <pre id="outputConv"></pre>
 
-            <pre id="outputConv"></pre>
+        <div class="floating-div">
+            <a href="#" id="supprimerChannel" class="delete">
+                <img src="/img/icons/trash.svg" alt="Delete">
+                Delete</a>
+            <a href="#" id="annulerDerniereAction" class="undo">
+                <img src="/img/icons/undo.svg" alt="Undo">
+                Annuler</a>
+            </a>
+            <a href="#" id="afficherChannelAleatoire" class="random">
+                <img src="/img/icons/dice.svg" alt="Random">
+                Aléatoire</a>
+            </a>
+            <a href="#" id="garderChannel" class="keep">
+                <img src="/img/icons/check.svg" alt="Keep">
+                Garder</a>
+            </a>
         </div>
     </main>
 

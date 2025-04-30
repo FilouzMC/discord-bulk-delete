@@ -57,7 +57,7 @@ Nombre de messages : ${msg?.messages.length || 0}</pre>
 
 		if (msg?.messages.length) {
 			// Configurer la pagination
-			const messagesParPage = 10; // Nombre de messages à afficher par page
+			const messagesParPage = 50; // Nombre de messages à afficher par page
 			window.currentMessagePage = 1;
 			window.totalMessages = msg.messages.length;
 
@@ -115,16 +115,17 @@ Nombre de messages : ${msg?.messages.length || 0}</pre>
 export async function updateCompteurRestants() {
 	const channels = await getAllFromIndexedDB(STORE_CHANNELS);
 	const total = localStorage.getItem("totalChannels") || "??";
-	const compteur = document.getElementById("compteur");
-	const typeCompteur = document.getElementById("typeCompteur");
+	// Navbar éléments
+	const channelsRestantsElement = document.getElementById("channelsRestants");
+	const channelsTypeElement = document.getElementById("channelsType");
 
-	if (compteur) {
-		compteur.textContent = `Channels restants : ${channels.length} / ${total}`;
+	if (channelsRestantsElement) {
+		channelsRestantsElement.textContent = `Channels restant : ${channels.length} / ${total}`;
 	}
 
-	if (typeCompteur && window.selectedOption) {
+	if (channelsTypeElement && window.selectedOption) {
 		const filteredChannels = channels.filter(channel => channel.type === window.selectedOption);
-		typeCompteur.textContent = `Channels pour le type ${window.selectedOption} : ${filteredChannels.length} / ${filteredChannels.length}`;
+		channelsTypeElement.textContent = `Channels pour le type ${window.selectedOption} : ${filteredChannels.length} / ${filteredChannels.length}`;
 	}
 }
 
@@ -229,5 +230,18 @@ function loadMoreMessages(allMessages, outputElement) {
 				loadMoreMessages(allMessages, outputElement);
 			});
 		}, 0);
+	}
+}
+
+// Mettre à jour les informations dans le menu de navigation
+function updateNavbarInfo(channelsRestants, channelsType, selectedType) {
+	
+
+	if (channelsRestantsElement) {
+		channelsRestantsElement.textContent = `Channels restant : ${channelsRestants}`;
+	}
+
+	if (channelsTypeElement) {
+		channelsTypeElement.textContent = `Channels pour le type ${selectedType} : ${channelsType}`;
 	}
 }
