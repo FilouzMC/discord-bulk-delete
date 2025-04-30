@@ -232,16 +232,3 @@ function loadMoreMessages(allMessages, outputElement) {
 		}, 0);
 	}
 }
-
-// Mettre à jour les informations dans le menu de navigation
-function updateNavbarInfo(channelsRestants, channelsType, selectedType) {
-	
-
-	if (channelsRestantsElement) {
-		channelsRestantsElement.textContent = `Channels restant : ${channelsRestants}`;
-	}
-
-	if (channelsTypeElement) {
-		channelsTypeElement.textContent = `Channels pour le type ${selectedType} : ${channelsType}`;
-	}
-}
