@@ -9,6 +9,21 @@ body {
     color: white
 }
 
+/* Button 1 */
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espacement entre l'icône et le texte */
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
 /* Menu de navigation */
 .navbar {
     background-color: #2c2d32;
@@ -41,6 +56,7 @@ body {
 .navbar .links a img {
     width: 20px;
     height: 20px;
+    padding-top: 5px;
     filter: invert(1); /* Rend l'icône blanche pour s'adapter au fond sombre */
 }
 
@@ -54,9 +70,10 @@ body {
     text-decoration: underline;
 }
 
+/* Bouton téléchargement du fichier des suppressions */
 .navbar .links a.dl {
     color: white;
-    background-color: #41bd33; /* Couleur rouge */
+    background-color: #41bd33;
     padding: 8px 15px;
     border-radius: 5px;
     text-decoration: none;
@@ -65,7 +82,21 @@ body {
 }
 
 .navbar .links a.dl:hover {
-    background-color: #33ad2c; /* Rouge plus foncé au survol */
+    transform: scale(1.05); /* Légère mise en avant */
+}
+
+/* Bouton settings : Open popup*/
+.navbar .links a.settings {
+    color: white;
+    background-color: #bd3c33;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar .links a.settings:hover {
     transform: scale(1.05); /* Légère mise en avant */
 }
 
@@ -116,7 +147,6 @@ body {
 }
 
 .floating-div a.delete:hover {
-    background-color: #c0392b;
     transform: scale(1.05);
 }
 
@@ -126,7 +156,6 @@ body {
 }
 
 .floating-div a.undo:hover {
-    background-color: #5a6d6e;
     transform: scale(1.05);
 }
 
@@ -136,7 +165,6 @@ body {
 }
 
 .floating-div a.random:hover {
-    background-color: #dea300;
     transform: scale(1.05);
 }
 
@@ -146,6 +174,104 @@ body {
 }
 
 .floating-div a.keep:hover {
-    background-color: #2980b9;
     transform: scale(1.05);
+}
+
+/* Settings view */
+.popupSettings {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Contenu de la popup */
+.popupSettings-content {
+    background: #323339;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+}
+
+/* Cacher la popup par défaut */
+.hiddenSettings {
+    display: none;
+}
+
+/* Button : Exporter (Svg) */
+.popupSettings-content a.exportButton  {
+    background-color: #1f84c7;
+    margin-bottom: 5px;
+}
+
+.popupSettings-content a.exportButton:hover {
+    transform: scale(1.05);
+}
+
+/* Button : Importer (Svg) */
+.popupSettings-content a.importButton  {
+    background-color: #ce7d13;
+    margin-bottom: 20px;
+}
+
+.popupSettings-content a.importButton:hover {
+    transform: scale(1.05);
+}
+
+/* Button : Delete DB */
+.popupSettings-content a.deleteDbButton  {
+    background-color: #e74c3c;
+    margin-bottom: 20px;
+}
+
+.popupSettings-content a.deleteDbButton:hover {
+    transform: scale(1.05);
+}
+
+/* Button : Close */
+.popupSettings-content a.closeSettings  {
+    background-color: transparent;
+    border-color: white;
+}
+
+.popupSettings-content a.closeSettings:hover {
+    transform: scale(1.05);
+}
+
+/* First join : Popup to import the file */
+/* Style pour le fond opaque */
+.popupImport {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Contenu de la popup */
+.popupImport-content {
+    background: #323339;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    text-align: center;
+}
+
+/* Cacher la popup par défaut */
+.hiddenImport {
+    display: none;
 }

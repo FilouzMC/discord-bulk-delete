@@ -1,12 +1,14 @@
 import { processAllChannels } from './js/fileProcessing.js';
 import { afficherChannelAleatoire, updateCompteurRestants } from './js/randomChannel.js';
 import { garderChannel, supprimerChannel, annulerDerniereAction } from './js/transfer.js';
-import { telechargerChannelsToDelete, importerBaseDeDonnees, exporterBaseDeDonnees } from './js/db.js';
+import { telechargerChannelsToDelete, importerBaseDeDonnees, exporterBaseDeDonnees, supprimerBaseDeDonnees } from './js/db.js';
+import { ouvrirSettings, fermerSettings, verifierPremiereConnexion } from './js/popup.js';
 import { checkLocalStorageKeyAndRedirect } from './js/redirects.js';
 
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    verifierPremiereConnexion(); // Vérifie si c'est la première connexion et affiche la popup d'importation si nécessaire
     // document.getElementById('processAllChannels').addEventListener('click', afficherChannelAleatoire);
     document.getElementById('afficherChannelAleatoire').addEventListener('click', afficherChannelAleatoire);
     document.getElementById('garderChannel').addEventListener('click', garderChannel);
@@ -14,6 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('annulerDerniereAction').addEventListener('click', annulerDerniereAction);
     document.getElementById('telechargerChannelsToDelete').addEventListener('click', telechargerChannelsToDelete);
     document.getElementById('exportButton').addEventListener('click', exporterBaseDeDonnees);
+    document.getElementById('deleteDbButton').addEventListener('click', supprimerBaseDeDonnees);
+    document.getElementById('settingsButton').addEventListener('click', ouvrirSettings);
+    document.getElementById('closeSettings').addEventListener('click', fermerSettings);
 
     // Bouton d'import - déclenche l'input file caché
     document.getElementById('importButton').addEventListener('click', function () {

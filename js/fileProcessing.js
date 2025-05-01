@@ -78,6 +78,10 @@ export async function processAllChannels() {
 		}
 
 		document.getElementById('status').textContent = "Tous les channels ont été traités avec succès !";
+		// Recharger la page après un délai court
+		setTimeout(() => {
+			location.reload();
+		}, 1500);
 
 	} catch (error) {
 		console.error(error);

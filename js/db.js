@@ -289,3 +289,49 @@ async function importerStore(items, storeName) {
 		tx.onerror = reject;
 	});
 }
+
+// 🗑️ Supprimer la base de données IndexedDB et le localStorage
+export async function supprimerBaseDeDonnees() {
+    // Afficher une alerte de confirmation
+    const confirmation = confirm(
+        "Êtes-vous sûr de vouloir supprimer toutes les données (IndexedDB et localStorage) ? Cette action est irréversible."
+    );
+
+    if (!confirmation) {
+        alert("Suppression annulée.");
+        return;
+    }
+
+    try {
+        // Ouvrir la base de données pour la fermer
+        const db = await openDB();
+        db.close(); // Fermer la connexion à la base de données
+        console.log("Connexion à IndexedDB fermée.");
+
+        // Supprimer IndexedDB
+        await new Promise((resolve, reject) => {
+            const request = indexedDB.deleteDatabase(DB_NAME);
+            request.onsuccess = () => {
+                console.log("IndexedDB supprimée avec succès.");
+                resolve();
+            };
+            request.onerror = (e) => {
+                console.error("Erreur lors de la suppression de IndexedDB :", e);
+                reject(e);
+            };
+            request.onblocked = () => {
+                console.warn("La suppression de IndexedDB est bloquée.");
+                alert("Veuillez fermer les autres onglets utilisant cette base de données.");
+            };
+        });
+
+        // Supprimer localStorage
+        localStorage.clear();
+        console.log("localStorage supprimé avec succès.");
+
+        alert("La base de données (IndexedDB et localStorage) a été supprimée avec succès.");
+    } catch (error) {
+        console.error("Erreur lors de la suppression de la base de données :", error);
+        alert("Une erreur est survenue lors de la suppression de la base de données.");
+    }
+}
