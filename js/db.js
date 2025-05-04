@@ -303,33 +303,65 @@ export async function supprimerBaseDeDonnees() {
     }
 
     try {
+        // Effacer le contenu de l'élément de sortie
+        const output = document.getElementById("outputConv");
+        if (output) output.textContent = "";
+
         // Ouvrir la base de données pour la fermer
         const db = await openDB();
         db.close(); // Fermer la connexion à la base de données
         console.log("Connexion à IndexedDB fermée.");
 
-        // Supprimer IndexedDB
-        await new Promise((resolve, reject) => {
-            const request = indexedDB.deleteDatabase(DB_NAME);
-            request.onsuccess = () => {
-                console.log("IndexedDB supprimée avec succès.");
-                resolve();
-            };
-            request.onerror = (e) => {
-                console.error("Erreur lors de la suppression de IndexedDB :", e);
-                reject(e);
-            };
-            request.onblocked = () => {
-                console.warn("La suppression de IndexedDB est bloquée.");
-                alert("Veuillez fermer les autres onglets utilisant cette base de données.");
-            };
-        });
-
         // Supprimer localStorage
         localStorage.clear();
         console.log("localStorage supprimé avec succès.");
 
-        alert("La base de données (IndexedDB et localStorage) a été supprimée avec succès.");
+        // Réessayer de supprimer IndexedDB jusqu'à 10 fois
+        const maxRetries = 10;
+        let attempt = 0;
+        let success = false;
+
+        while (attempt < maxRetries && !success) {
+            attempt++;
+            console.log(`Tentative ${attempt} pour supprimer IndexedDB...`);
+
+            success = await new Promise((resolve) => {
+                const request = indexedDB.deleteDatabase(DB_NAME);
+
+                request.onsuccess = () => {
+                    console.log("IndexedDB supprimée avec succès.");
+                    resolve(true);
+                };
+
+                request.onerror = (e) => {
+                    console.error("Erreur lors de la suppression de IndexedDB :", e);
+                    resolve(false);
+                };
+
+                request.onblocked = (e) => {
+                    console.warn("La suppression de IndexedDB est bloquée.");
+                    console.warn(e);
+                    resolve(false);
+                };
+            });
+
+            if (!success) {
+                console.log("Nouvelle tentative dans 1 seconde...");
+                await new Promise((r) => setTimeout(r, 1000)); // Attendre 1 seconde avant de réessayer
+            }
+        }
+
+        if (success) {
+            console.log("La base de données (IndexedDB et localStorage) a été supprimée avec succès.");
+            setTimeout(() => {
+                // Recharger la page
+                location.reload(true);
+            }, 1000);
+        } else {
+            alert(
+                "Impossible de supprimer la base de données après plusieurs tentatives. Veuillez fermer tous les onglets ou réessayer plus tard."
+            );
+        }
     } catch (error) {
         console.error("Erreur lors de la suppression de la base de données :", error);
         alert("Une erreur est survenue lors de la suppression de la base de données.");

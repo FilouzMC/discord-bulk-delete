@@ -3,8 +3,7 @@ import { afficherChannelAleatoire, updateCompteurRestants } from './js/randomCha
 import { garderChannel, supprimerChannel, annulerDerniereAction } from './js/transfer.js';
 import { telechargerChannelsToDelete, importerBaseDeDonnees, exporterBaseDeDonnees, supprimerBaseDeDonnees } from './js/db.js';
 import { ouvrirSettings, fermerSettings, verifierPremiereConnexion } from './js/popup.js';
-import { checkLocalStorageKeyAndRedirect } from './js/redirects.js';
-
+import { getUserProfile } from './js/utils.js';
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -48,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.selectedOption = "DM"; // Valeur par défaut
     updateCompteurRestants();
-    afficherChannelAleatoire();
+    afficherChannelAleatoire();    
 });
 
 document.getElementById('zipInput').addEventListener('change', async function (event) {

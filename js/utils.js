@@ -1,3 +1,5 @@
+import { DISCORD_BOT_TOKEN } from "./config.js";
+
 /**
  * Extrait le nom significatif d'un channel à partir de son indexLabel
  * @param {string} indexLabel - Label du channel depuis indexJson
@@ -53,3 +55,34 @@ export function getChannelAvatarPath(channelId, totalAvatars = 5) {
 	return `/img/avatars/${avatarNumber}.png`;
 }
 
+/* Fonction pour récupérer le profil utilisateur Discord
+ * @param {string} userId - ID de l'utilisateur Discord
+ * @returns {Promise<object>} - Données du profil utilisateur
+ */
+export async function getUserProfile(userId) {
+	const token = DISCORD_BOT_TOKEN; // Récupérer le token depuis config.js
+	if (!token) {
+		throw new Error("Le token Discord n'est pas défini.");
+	}
+
+	const url = `https://discord.com/api/v10/users/${userId}`;
+
+	try {
+		const response = await fetch(url, {
+			method: "GET",
+			headers: {
+				Authorization: `Bot ${token}`, // Utiliser le token
+			},
+		});
+
+		if (!response.ok) {
+			throw new Error(`Erreur HTTP : ${response.status}`);
+		}
+
+		const userData = await response.json();
+		console.log("Données utilisateur :", userData);
+		return userData;
+	} catch (error) {
+		console.error("Erreur lors de la récupération des données utilisateur :", error);
+	}
+}
