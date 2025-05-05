@@ -56,7 +56,7 @@ export async function afficherChannelAleatoire() {
                     </div>
                     <div>
                         <h3>${nomChannel}</h3>
-                        <p>Index : ${indexLabel}</p>
+                        <p>${indexLabel}</p>
                         <p>${msg?.messages.length || 0} messages envoyés</p>
                     </div>
                 </div>
