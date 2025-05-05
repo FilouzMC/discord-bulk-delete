@@ -25,6 +25,67 @@ body {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Select */
+select {
+    padding: 10px;
+    border: 1px solid #666; /* Bordure grise foncée */
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff; /* Texte blanc */
+    background-color: #2b2c32; /* Fond gris foncé */
+    width: 200px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+/* Style au survol en mode sombre */
+select:hover {
+    border-color: #999;
+}
+
+/* Style au focus en mode sombre */
+select:focus {
+    border-color: #00aaff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 170, 255, 0.5);
+}
+
+/* Style pour la flèche en mode sombre */
+.select-wrapper::after {
+    color: #fff; /* Flèche blanche */
+}
+
+/* Style au focus */
+select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Style pour la flèche (nécessite un peu de triche) */
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.select-wrapper::after {
+    content: '\25BC';
+    /* Flèche vers le bas */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #333;
+}
+
+/* Style pour désactiver la flèche sur IE */
+select::-ms-expand {
+    display: none;
+}
+
 /* Menu de navigation */
 .navbar {
     background-color: #2c2d32;
@@ -414,63 +475,3 @@ body {
     font-style: italic; /* Style italique pour différencier */
 }
 
-/* Style de base */
-select {
-    padding: 10px;
-    border: 1px solid #666; /* Bordure grise foncée */
-    border-radius: 5px;
-    font-size: 16px;
-    color: #fff; /* Texte blanc */
-    background-color: #2b2c32; /* Fond gris foncé */
-    width: 200px;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-}
-
-/* Style au survol en mode sombre */
-select:hover {
-    border-color: #999;
-}
-
-/* Style au focus en mode sombre */
-select:focus {
-    border-color: #00aaff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 170, 255, 0.5);
-}
-
-/* Style pour la flèche en mode sombre */
-.select-wrapper::after {
-    color: #fff; /* Flèche blanche */
-}
-
-/* Style au focus */
-select:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-/* Style pour la flèche (nécessite un peu de triche) */
-.select-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-.select-wrapper::after {
-    content: '\25BC';
-    /* Flèche vers le bas */
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    pointer-events: none;
-    color: #333;
-}
-
-/* Style pour désactiver la flèche sur IE */
-select::-ms-expand {
-    display: none;
-}

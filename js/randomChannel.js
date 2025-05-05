@@ -2,11 +2,11 @@ import { getAllFromIndexedDB, getItemFromIndexedDB, STORE_CHANNELS, STORE_MESSAG
 import { extraireNomChannel, getChannelAvatarPath } from "./utils.js";
 
 document.getElementById("channelType").addEventListener("change", (event) => {
-	window.selectedOption = event.target.value;
-	const output = document.getElementById("output");
+    window.selectedOption = event.target.value;
+    const output = document.getElementById("output");
 
-	// Afficher l'option sélectionnée
-	console.log(`Vous avez sélectionné : ${selectedOption}`);
+    // Afficher l'option sélectionnée
+    console.log(`Vous avez sélectionné : ${selectedOption}`);
 });
 
 
@@ -167,18 +167,18 @@ function loadMoreMessages(allMessages, conversationElement) {
 
 // 📜 Compteur
 export async function updateCompteurRestants() {
-	const channels = await getAllFromIndexedDB(STORE_CHANNELS);
-	const total = localStorage.getItem("totalChannels") || "??";
-	// Navbar éléments
-	const channelsRestantsElement = document.getElementById("channelsRestants");
-	const channelsTypeElement = document.getElementById("channelsType");
+    const channels = await getAllFromIndexedDB(STORE_CHANNELS);
+    const total = localStorage.getItem("totalChannels") || "??";
+    // Navbar éléments
+    const channelsRestantsElement = document.getElementById("channelsRestants");
+    const channelsTypeElement = document.getElementById("channelsType");
 
-	if (channelsRestantsElement) {
-		channelsRestantsElement.textContent = `Channels restant : ${channels.length} / ${total}`;
-	}
+    if (channelsRestantsElement) {
+        channelsRestantsElement.textContent = `Channels restant : ${channels.length} / ${total}`;
+    }
 
-	if (channelsTypeElement && window.selectedOption) {
-		const filteredChannels = channels.filter(channel => channel.type === window.selectedOption);
-		channelsTypeElement.textContent = `Channels pour le type ${window.selectedOption} : ${filteredChannels.length} / ${filteredChannels.length}`;
-	}
+    if (channelsTypeElement && window.selectedOption) {
+        const filteredChannels = channels.filter(channel => channel.type === window.selectedOption);
+        channelsTypeElement.textContent = `Channels pour le type ${window.selectedOption} : ${filteredChannels.length} / ${filteredChannels.length}`;
+    }
 }
