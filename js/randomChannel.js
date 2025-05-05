@@ -79,9 +79,9 @@ export async function afficherChannelAleatoire() {
             if (msg.messages.length > messagesParPage) {
                 const restants = msg.messages.length - messagesParPage;
                 conversationElement.innerHTML += `
-                    <button id="loadMoreMessages" class="btn btn-primary mt-3">
+                    <a href="#" id="loadMoreMessages" class="btn btn-primary mt-3">
                         Voir plus (${restants} messages restants)
-                    </button>`;
+                    </a>`;
 
                 // Ajouter l'écouteur d'événements après l'insertion du bouton
                 setTimeout(() => {
@@ -152,9 +152,9 @@ function loadMoreMessages(allMessages, conversationElement) {
     const restants = allMessages.length - endIndex;
     if (restants > 0) {
         conversationElement.innerHTML += `
-            <button id="loadMoreMessages" class="btn btn-primary mt-3">
+            <a href="#" id="loadMoreMessages" class="btn btn-primary mt-3">
                 Voir plus (${restants} messages restants)
-            </button>`;
+            </a>`;
 
         // Réattacher l'écouteur d'événements au nouveau bouton
         setTimeout(() => {

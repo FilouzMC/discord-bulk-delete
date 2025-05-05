@@ -20,7 +20,16 @@
                 <span id="channelsRestants">Channels restant : x/x</span> |
                 <span id="channelsType">Channels pour le type xx : xx</span>
             </div>
+
             <div class="links">
+                <select id="channelType">
+                    <option value="DM">DM</option>
+                    <option value="GROUP_DM">Group DM</option>
+                    <option value="GUILD_TEXT">Guild Text</option>
+                    <option value="GUILD_VOICE">Guild Voice</option>
+                    <option value="PUBLIC_THREAD">Guild Thread</option>
+                </select>
+
                 <a class="dl" href="#" id="telechargerChannelsToDelete">
                     <img src="/img/icons/database-check.svg" alt="Database Check">
                 </a>
@@ -34,15 +43,6 @@
     </header>
 
     <main>
-        <label for="channelType">Choisissez un type de channel :</label>
-        <select id="channelType">
-            <option value="DM">DM</option>
-            <option value="GROUP_DM">Group DM</option>
-            <option value="GUILD_TEXT">Guild Text</option>
-            <option value="GUILD_VOICE">Guild Voice</option>
-            <option value="PUBLIC_THREAD">Guild Thread</option>
-        </select>
-
         <div id="outputConv"></div>
 
         <div class="floating-div">
@@ -97,7 +97,7 @@
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js"></script>
     <script type="module" src="script.js"></script>
 </body>
 
