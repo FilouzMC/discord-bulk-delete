@@ -1,4 +1,4 @@
-import { DISCORD_BOT_TOKEN } from "./config.js";
+// import { DISCORD_BOT_TOKEN } from "./config.js";
 
 /**
  * Extrait le nom significatif d'un channel à partir de son indexLabel

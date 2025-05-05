@@ -10,106 +10,159 @@ document.getElementById("channelType").addEventListener("change", (event) => {
 });
 
 
-// 📜 Affichage d'un channel aléatoire
 export async function afficherChannelAleatoire() {
-	const output = document.getElementById("outputConv");
-	output.textContent = "";
+    const output = document.getElementById("outputConv");
+    output.textContent = "";
 
-	try {
-		// Récupérer tous les channels et messages depuis IndexedDB
-		const channels = await getAllFromIndexedDB(STORE_CHANNELS);
-		const messages = await getAllFromIndexedDB(STORE_MESSAGES);
-		// Gestion des erreurs : Si aucun channel n'est trouvé
-		if (channels.length === 0) {
-			output.textContent = "Aucun channel stocké.";
-			return;
-		}
+    try {
+        // Récupérer tous les channels et messages depuis IndexedDB
+        const channels = await getAllFromIndexedDB(STORE_CHANNELS);
+        const messages = await getAllFromIndexedDB(STORE_MESSAGES);
 
-		// Random channel en fonction du type sélectionné
-		const filteredChannels = channels.filter(channel => channel.type === window.selectedOption);
+        // Gestion des erreurs : Si aucun channel n'est trouvé
+        if (channels.length === 0) {
+            output.textContent = "Aucun channel stocké.";
+            return;
+        }
 
-		if (filteredChannels.length === 0) {
-			output.textContent = `Aucun channel de type ${window.selectedOption} trouvé.`;
-			return;
-		}
+        // Random channel en fonction du type sélectionné
+        const filteredChannels = channels.filter(channel => channel.type === window.selectedOption);
 
+        if (filteredChannels.length === 0) {
+            output.textContent = `Aucun channel de type ${window.selectedOption} trouvé.`;
+            return;
+        }
 
-		const randomIndex = Math.floor(Math.random() * filteredChannels.length);
-		const channel = filteredChannels[randomIndex];
-		window.currentChannelId = channel.id;
+        const randomIndex = Math.floor(Math.random() * filteredChannels.length);
+        const channel = filteredChannels[randomIndex];
+        window.currentChannelId = channel.id;
 
-		const msg = messages.find(m => m.channelId === channel.id);
-		// Recherche dans l'index pour le label
-		const indexJson = await getItemFromIndexedDB(STORE_INDEX, "indexJson");
-		// Variable : Index (ex : "Direct Message with <user>")
-		const indexLabel = indexJson?.[channel.id] || "(non trouvé dans index.json)";
-		// Variable : Nom du channel (ex : "Nom du channel dans le serveur")
-		const nomChannel = extraireNomChannel(indexLabel);
-		// Avatar du channel
-		const avatarPath = getChannelAvatarPath(channel.id);
+        const msg = messages.find(m => m.channelId === channel.id);
+        const indexJson = await getItemFromIndexedDB(STORE_INDEX, "indexJson");
+        const indexLabel = indexJson?.[channel.id] || "(non trouvé dans index.json)";
+        const nomChannel = extraireNomChannel(indexLabel);
+        const avatarPath = getChannelAvatarPath(channel.id);
 
-		output.innerHTML = `<pre>🎲 Channel aléatoire : ${channel.name || "(sans nom)"} [${channel.id}]<br>
-Nom : ${nomChannel}<br>
-Avatar : <img src="${avatarPath}" alt="Avatar" width="50" height="50"><br>
-Index : ${indexLabel}<br>
-Guild: ${channel.guild?.name || "aucune"}<br>
-Nombre de messages : ${msg?.messages.length || 0}</pre>
-<hr>`;
+        // Affichage initial
+        output.innerHTML = `
+            <div id="main-container">
+                <!-- Section de la conversation -->
+                <div id="conversation"></div>
 
-		if (msg?.messages.length) {
-			// Configurer la pagination
-			const messagesParPage = 50; // Nombre de messages à afficher par page
-			window.currentMessagePage = 1;
-			window.totalMessages = msg.messages.length;
+                <!-- Section du profil -->
+                <div id="output">
+                    <div class="avatar">
+                        <img src="${avatarPath}" alt="Avatar">
+                    </div>
+                    <div>
+                        <h3>${nomChannel}</h3>
+                        <p>Index : ${indexLabel}</p>
+                        <p>${msg?.messages.length || 0} messages envoyés</p>
+                    </div>
+                </div>
+            </div>
+        `;
 
-			// Afficher les 50 premiers messages
-			const messagesToShow = msg.messages.slice(0, messagesParPage);
-			messagesToShow.forEach((message, i) => {
-				output.innerHTML += `<div class="message" id="message-${i}">${message.Timestamp} ${message.Contents || "[Pièce jointe]"}</div>`;
-			});
+        const conversationElement = document.getElementById("conversation");
 
-			// Afficher le bouton "Voir plus" si nécessaire
-			if (msg.messages.length > messagesParPage) {
-				const restants = msg.messages.length - messagesParPage;
-				output.innerHTML += `
+        if (msg?.messages.length) {
+            // Configurer la pagination
+            const messagesParPage = 50;
+            window.currentMessagePage = 1;
+            window.totalMessages = msg.messages.length;
+
+            // Afficher les 50 premiers messages
+            const messagesToShow = msg.messages.slice(0, messagesParPage);
+            renderMessages(messagesToShow, conversationElement);
+
+            // Afficher le bouton "Voir plus" si nécessaire
+            if (msg.messages.length > messagesParPage) {
+                const restants = msg.messages.length - messagesParPage;
+                conversationElement.innerHTML += `
+                    <button id="loadMoreMessages" class="btn btn-primary mt-3">
+                        Voir plus (${restants} messages restants)
+                    </button>`;
+
+                // Ajouter l'écouteur d'événements après l'insertion du bouton
+                setTimeout(() => {
+                    document.getElementById("loadMoreMessages")?.addEventListener("click", () => {
+                        loadMoreMessages(msg.messages, conversationElement);
+                    });
+                }, 0);
+            }
+        } else {
+            conversationElement.innerHTML = "<p>Aucun message dans ce channel.</p>";
+        }
+
+        await updateCompteurRestants();
+
+    } catch (err) {
+        output.textContent = "Erreur lors de l'affichage aléatoire : " + err.message;
+    }
+}
+
+/**
+ * Affiche une liste de messages dans l'élément de conversation
+ * @param {Array} messages - Tableau des messages à afficher
+ * @param {HTMLElement} conversationElement - Élément DOM où afficher les messages
+ */
+function renderMessages(messages, conversationElement) {
+    messages.forEach((message, i) => {
+        conversationElement.innerHTML += `
+            <p>
+                <img src="${getChannelAvatarPath(message.channelId)}" alt="Avatar">
+                <strong>${message.author || "Utilisateur inconnu"}</strong>
+                <span>${message.Contents || "[Pièce jointe]"}</span>
+                <time>${message.Timestamp || "Date inconnue"}</time>
+            </p>
+        `;
+    });
+}
+
+/**
+ * Charge davantage de messages quand l'utilisateur clique sur "Voir plus"
+ * @param {Array} allMessages - Tableau de tous les messages
+ * @param {HTMLElement} conversationElement - Élément DOM où afficher les messages
+ */
+function loadMoreMessages(allMessages, conversationElement) {
+    const messagesParPage = 50;
+    const currentPage = window.currentMessagePage || 1;
+    const nextPage = currentPage + 1;
+
+    // Calculer l'index de début et de fin pour cette page
+    const startIndex = currentPage * messagesParPage;
+    const endIndex = Math.min(startIndex + messagesParPage, allMessages.length);
+
+    // Récupérer les messages à afficher
+    const messagesToShow = allMessages.slice(startIndex, endIndex);
+
+    // Supprimer le bouton actuel
+    const currentButton = document.getElementById("loadMoreMessages");
+    if (currentButton) {
+        currentButton.remove();
+    }
+
+    // Ajouter les nouveaux messages
+    renderMessages(messagesToShow, conversationElement);
+
+    // Mettre à jour la page courante
+    window.currentMessagePage = nextPage;
+
+    // Ajouter un nouveau bouton si nécessaire
+    const restants = allMessages.length - endIndex;
+    if (restants > 0) {
+        conversationElement.innerHTML += `
             <button id="loadMoreMessages" class="btn btn-primary mt-3">
                 Voir plus (${restants} messages restants)
             </button>`;
 
-				// Ajouter l'écouteur d'événements après l'insertion du bouton
-				setTimeout(() => {
-					document.getElementById("loadMoreMessages")?.addEventListener("click", () => {
-						loadMoreMessages(msg.messages, output);
-					});
-				}, 0);
-			}
-		} else {
-			output.innerHTML += "<p>Aucun message dans ce channel.</p>";
-		}
-
-		// const nameChannel = document.getElementById("nameChannel");
-		// const channelId = document.getElementById("channelId");
-		// const indexChannel = document.getElementById("indexChannel");
-		// const nbMessages = document.getElementById("nbMessages");
-
-		// if (nameChannel) {
-		// 	nameChannel.textContent = `${channel.guild?.name || ""}`;
-		// }
-		// if (channelId) {
-		// 	channelId.textContent = `Channel ID : ${channel.id}`;
-		// }
-		// if (indexChannel) {
-		// 	indexChannel.textContent = `${indexLabel}`;
-		// }
-		// if (nbMessages) {
-		// 	nbMessages.textContent = `Nombre de messages : ${msg?.messages.length || 0}`;
-		// }
-
-		await updateCompteurRestants();
-
-	} catch (err) {
-		output.textContent = "Erreur lors de l'affichage aléatoire : " + err.message;
-	}
+        // Réattacher l'écouteur d'événements au nouveau bouton
+        setTimeout(() => {
+            document.getElementById("loadMoreMessages")?.addEventListener("click", () => {
+                loadMoreMessages(allMessages, conversationElement);
+            });
+        }, 0);
+    }
 }
 
 // 📜 Compteur
@@ -127,54 +180,5 @@ export async function updateCompteurRestants() {
 	if (channelsTypeElement && window.selectedOption) {
 		const filteredChannels = channels.filter(channel => channel.type === window.selectedOption);
 		channelsTypeElement.textContent = `Channels pour le type ${window.selectedOption} : ${filteredChannels.length} / ${filteredChannels.length}`;
-	}
-}
-
-/**
- * Charge davantage de messages quand l'utilisateur clique sur "Voir plus"
- * @param {Array} allMessages - Tableau de tous les messages
- * @param {HTMLElement} outputElement - Élément DOM où afficher les messages
- */
-function loadMoreMessages(allMessages, outputElement) {
-	const messagesParPage = 50;
-	const currentPage = window.currentMessagePage || 1;
-	const nextPage = currentPage + 1;
-
-	// Calculer l'index de début et de fin pour cette page
-	const startIndex = currentPage * messagesParPage;
-	const endIndex = Math.min(startIndex + messagesParPage, allMessages.length);
-
-	// Récupérer les messages à afficher
-	const messagesToShow = allMessages.slice(startIndex, endIndex);
-
-	// Supprimer le bouton actuel
-	const currentButton = document.getElementById("loadMoreMessages");
-	if (currentButton) {
-		currentButton.remove();
-	}
-
-	// Ajouter les nouveaux messages
-	messagesToShow.forEach((message, i) => {
-		const globalIndex = startIndex + i;
-		outputElement.innerHTML += `<div class="message" id="message-${globalIndex}">${message.Timestamp} ${message.Contents || "[Pièce jointe]"}</div>`;
-	});
-
-	// Mettre à jour la page courante
-	window.currentMessagePage = nextPage;
-
-	// Ajouter un nouveau bouton si nécessaire
-	const restants = allMessages.length - endIndex;
-	if (restants > 0) {
-		outputElement.innerHTML += `
-            <button id="loadMoreMessages" class="btn btn-primary mt-3">
-                Voir plus (${restants} messages restants)
-            </button>`;
-
-		// Réattacher l'écouteur d'événements au nouveau bouton
-		setTimeout(() => {
-			document.getElementById("loadMoreMessages")?.addEventListener("click", () => {
-				loadMoreMessages(allMessages, outputElement);
-			});
-		}, 0);
 	}
 }

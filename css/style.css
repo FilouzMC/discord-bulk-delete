@@ -14,7 +14,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Espacement entre l'icône et le texte */
+    gap: 8px;
+    /* Espacement entre l'icône et le texte */
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -57,7 +58,8 @@ body {
     width: 20px;
     height: 20px;
     padding-top: 5px;
-    filter: invert(1); /* Rend l'icône blanche pour s'adapter au fond sombre */
+    filter: invert(1);
+    /* Rend l'icône blanche pour s'adapter au fond sombre */
 }
 
 .navbar .links a {
@@ -82,7 +84,8 @@ body {
 }
 
 .navbar .links a.dl:hover {
-    transform: scale(1.05); /* Légère mise en avant */
+    transform: scale(1.05);
+    /* Légère mise en avant */
 }
 
 /* Bouton settings : Open popup*/
@@ -97,7 +100,8 @@ body {
 }
 
 .navbar .links a.settings:hover {
-    transform: scale(1.05); /* Légère mise en avant */
+    transform: scale(1.05);
+    /* Légère mise en avant */
 }
 
 .navbar .info {
@@ -108,12 +112,17 @@ body {
 /* Div centrée en bas */
 .floating-div {
     position: fixed;
-    bottom: 20px; /* Distance du bas de la fenêtre */
-    left: 50%; /* Position horizontale au milieu */
-    transform: translateX(-50%); /* Centrer horizontalement */
+    bottom: 20px;
+    /* Distance du bas de la fenêtre */
+    left: 50%;
+    /* Position horizontale au milieu */
+    transform: translateX(-50%);
+    /* Centrer horizontalement */
     display: flex;
-    gap: 10px; /* Espacement entre les boutons */
-    background-color: #2c2d32; /* Couleur de fond */
+    gap: 10px;
+    /* Espacement entre les boutons */
+    background-color: #2c2d32;
+    /* Couleur de fond */
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -124,7 +133,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Espacement entre l'icône et le texte */
+    gap: 8px;
+    /* Espacement entre l'icône et le texte */
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -138,7 +148,8 @@ body {
 .floating-div a img {
     width: 20px;
     height: 20px;
-    filter: invert(1); /* Rend l'icône blanche pour s'adapter au fond sombre */
+    filter: invert(1);
+    /* Rend l'icône blanche pour s'adapter au fond sombre */
 }
 
 /* Bouton rouge : Delete */
@@ -207,7 +218,7 @@ body {
 }
 
 /* Button : Exporter (Svg) */
-.popupSettings-content a.exportButton  {
+.popupSettings-content a.exportButton {
     background-color: #1f84c7;
     margin-bottom: 5px;
 }
@@ -217,7 +228,7 @@ body {
 }
 
 /* Button : Importer (Svg) */
-.popupSettings-content a.importButton  {
+.popupSettings-content a.importButton {
     background-color: #ce7d13;
     margin-bottom: 20px;
 }
@@ -227,7 +238,7 @@ body {
 }
 
 /* Button : Delete DB */
-.popupSettings-content a.deleteDbButton  {
+.popupSettings-content a.deleteDbButton {
     background-color: #e74c3c;
     margin-bottom: 20px;
 }
@@ -237,7 +248,7 @@ body {
 }
 
 /* Button : Close */
-.popupSettings-content a.closeSettings  {
+.popupSettings-content a.closeSettings {
     background-color: transparent;
     border-color: white;
 }
@@ -274,4 +285,131 @@ body {
 /* Cacher la popup par défaut */
 .hiddenImport {
     display: none;
+}
+
+/* Output profile and convs show */
+
+/* Conteneur principal pour le profil et la conversation */
+#main-container {
+    display: flex;
+    justify-content: space-between;
+    /* Sépare le profil et la conversation */
+    align-items: flex-start;
+    /* Aligne les éléments en haut */
+    gap: 20px;
+    /* Espacement entre le profil et la conversation */
+    margin: 20px;
+}
+
+/* Style pour le conteneur du profil */
+#output {
+    display: flex;
+    align-items: center;
+    /* Centre verticalement l'avatar et le texte */
+    gap: 20px;
+    /* Espacement entre l'avatar et le texte */
+    background-color: #2c2d32;
+    /* Fond sombre pour le profil */
+    padding: 20px;
+    border-radius: 10px;
+    /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    /* Ombre pour un effet flottant */
+    max-width: 300px;
+    /* Largeur maximale */
+    flex-shrink: 0;
+    /* Empêche le profil de rétrécir */
+}
+
+/* Style pour l'avatar */
+#output .avatar img {
+    border-radius: 50%;
+    /* Avatar arrondi */
+    width: 100px;
+    /* Taille de l'avatar */
+    height: 100px;
+    /* Taille de l'avatar */
+    object-fit: cover;
+    /* Ajuste l'image pour qu'elle remplisse le cadre */
+}
+
+/* Style pour le texte à droite de l'avatar */
+#output div {
+    display: flex;
+    flex-direction: column;
+    /* Aligne les éléments verticalement */
+    justify-content: center;
+    /* Centre verticalement le texte */
+    color: white;
+    /* Couleur du texte */
+}
+
+/* Style pour le nom (h3) */
+#output h3 {
+    font-size: 1.5rem;
+    /* Taille du texte plus grande */
+    margin: 0;
+    /* Supprime les marges */
+    font-weight: bold;
+}
+
+/* Style pour les descriptions (p) */
+#output p {
+    margin: 5px 0;
+    /* Espacement vertical entre les paragraphes */
+    font-size: 1rem;
+    /* Taille du texte */
+    color: #b0b0b0;
+    /* Couleur grise pour les descriptions */
+}
+
+/* Style pour la conversation */
+#conversation {
+    flex-grow: 1; /* La conversation prend tout l'espace restant */
+    background-color: #2c2d32; /* Fond sombre pour la conversation */
+    padding: 20px;
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre pour un effet flottant */
+    color: white; /* Couleur du texte */
+    max-height: 500px; /* Hauteur maximale */
+    overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+}
+
+/* Style pour chaque message */
+#conversation p {
+    display: flex;
+    align-items: center; /* Centre verticalement l'avatar et le texte */
+    gap: 10px; /* Espacement entre l'avatar et le texte */
+    padding: 10px;
+    margin: 10px 0; /* Espacement vertical entre les messages */
+    background-color: #3a3b41; /* Fond des messages */
+    border-radius: 8px; /* Coins arrondis pour les messages */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre légère pour les messages */
+}
+
+/* Style pour l'avatar dans les messages */
+#conversation p img {
+    border-radius: 50%; /* Avatar arrondi */
+    width: 40px; /* Taille de l'avatar */
+    height: 40px; /* Taille de l'avatar */
+    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le cadre */
+}
+
+/* Style pour le texte dans les messages */
+#conversation p strong {
+    font-weight: bold;
+    color: #ffffff; /* Couleur du nom d'utilisateur */
+    margin-right: 5px; /* Espacement après le nom */
+}
+
+#conversation p span {
+    color: #b0b0b0; /* Couleur grise pour le texte des messages */
+}
+
+/* Style pour la date d'envoi */
+#conversation p time {
+    margin-left: auto; /* Place la date à droite */
+    font-size: 0.8rem; /* Taille plus petite */
+    color: #8c8c8c; /* Couleur grise pour la date */
+    font-style: italic; /* Style italique pour différencier */
 }
