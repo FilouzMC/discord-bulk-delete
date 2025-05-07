@@ -1,5 +1,3 @@
-// import { DISCORD_BOT_TOKEN } from "./config.js";
-
 /**
  * Extrait le nom significatif d'un channel à partir de son indexLabel
  * @param {string} indexLabel - Label du channel depuis indexJson
@@ -60,18 +58,13 @@ export function getChannelAvatarPath(channelId, totalAvatars = 5) {
  * @returns {Promise<object>} - Données du profil utilisateur
  */
 export async function getUserProfile(userId) {
-	const token = DISCORD_BOT_TOKEN; // Récupérer le token depuis config.js
-	if (!token) {
-		throw new Error("Le token Discord n'est pas défini.");
-	}
-
 	const url = `https://discord.com/api/v10/users/${userId}`;
 
 	try {
 		const response = await fetch(url, {
 			method: "GET",
 			headers: {
-				Authorization: `Bot ${token}`, // Utiliser le token
+				Authorization: `Bot ${process.env.DISCORD_TOKEN}`, // Utiliser le token
 			},
 		});
 
@@ -85,4 +78,10 @@ export async function getUserProfile(userId) {
 	} catch (error) {
 		console.error("Erreur lors de la récupération des données utilisateur :", error);
 	}
+}
+
+export function getFileExtension(url) {
+    // Utilise une expression régulière pour capturer l'extension avant les paramètres
+    const match = url.match(/\.([a-zA-Z0-9]+)(?=\?|#|$)/);
+    return match ? match[1].toLowerCase() : null; // Retourne l'extension en minuscule ou null si aucune extension trouvée
 }

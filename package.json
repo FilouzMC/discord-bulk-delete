@@ -1,5 +1,17 @@
 {
   "dependencies": {
-    "dotenv": "^16.5.0"
-  }
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  },
+  "name": "discord-bulk-delete",
+  "version": "1.0.0",
+  "description": "Projet DBD est une application web qui permet de gérer des archives de canaux Discord. Elle utilise IndexedDB pour stocker les données extraites de fichiers ZIP contenant des informations sur les canaux et les messages.",
+  "main": "script.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

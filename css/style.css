@@ -437,7 +437,7 @@ select::-ms-expand {
 }
 
 /* Style pour chaque message */
-#conversation p {
+#conversation div {
     display: flex;
     align-items: center; /* Centre verticalement l'avatar et le texte */
     gap: 10px; /* Espacement entre l'avatar et le texte */
@@ -449,7 +449,7 @@ select::-ms-expand {
 }
 
 /* Style pour l'avatar dans les messages */
-#conversation p img {
+.avatarMsg {
     border-radius: 50%; /* Avatar arrondi */
     width: 40px; /* Taille de l'avatar */
     height: 40px; /* Taille de l'avatar */
@@ -457,18 +457,24 @@ select::-ms-expand {
 }
 
 /* Style pour le texte dans les messages */
-#conversation p strong {
+#conversation div strong {
     font-weight: bold;
     color: #ffffff; /* Couleur du nom d'utilisateur */
     margin-right: 5px; /* Espacement après le nom */
 }
 
-#conversation p span {
-    color: #b0b0b0; /* Couleur grise pour le texte des messages */
+#conversation div span {
+    color: #fff; /* Couleur grise pour le texte des messages */
+}
+
+#conversation div span a {
+    margin: 0; /* Supprime les marges */
+    font-size: 1rem; /* Taille du texte */
+    color: #7BB0F5; /* Couleur grise pour le texte des messages */
 }
 
 /* Style pour la date d'envoi */
-#conversation p time {
+#conversation div time {
     margin-left: auto; /* Place la date à droite */
     font-size: 0.8rem; /* Taille plus petite */
     color: #8c8c8c; /* Couleur grise pour la date */

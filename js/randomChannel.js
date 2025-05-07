@@ -1,5 +1,5 @@
 import { getAllFromIndexedDB, getItemFromIndexedDB, STORE_CHANNELS, STORE_MESSAGES, STORE_INDEX } from "./db.js";
-import { extraireNomChannel, getChannelAvatarPath } from "./utils.js";
+import { extraireNomChannel, getChannelAvatarPath, getFileExtension } from "./utils.js";
 
 document.getElementById("channelType").addEventListener("change", (event) => {
     window.selectedOption = event.target.value;
@@ -102,19 +102,42 @@ export async function afficherChannelAleatoire() {
 }
 
 /**
- * Affiche une liste de messages dans l'élément de conversation
- * @param {Array} messages - Tableau des messages à afficher
- * @param {HTMLElement} conversationElement - Élément DOM où afficher les messages
+ * Affiche une liste de messages dans l'élément de conversation.
+ * Si message.AttachmentURL a une valeur, affiche l'attachement juste en dessous du contenu (si ce dernier existe).
+ * @param {Array} messages - Tableau des messages à afficher.
+ * @param {HTMLElement} conversationElement - Élément DOM où afficher les messages.
  */
 function renderMessages(messages, conversationElement) {
     messages.forEach((message, i) => {
+        let messageContent = "";
+        if (message.Contents) {
+            const parsedContent = marked.parse(message.Contents);
+            messageContent = parsedContent.replace(
+                /<a /g,
+                '<a target="_blank" rel="noopener noreferrer" '
+            );
+        } else {
+            messageContent = "";
+        }
+
+        let attachmentHTML = "";
+        if (message.Attachments) {
+            const attachmentLink = message.Attachments;
+            const ext = getFileExtension(attachmentLink); // Utilise la fonction pour récupérer l'extension
+            if (["jpg", "jpeg", "png", "gif", "bmp"].includes(ext)) {
+                attachmentHTML = `<img src="${attachmentLink}" alt="Attachement" style="max-width:100%;display:block;margin-top:8px;">`;
+            } else {
+                attachmentHTML = `<a href="${attachmentLink}" target="_blank" rel="noopener noreferrer">Télécharger l'attachement</a>`;
+            }
+        }
+
         conversationElement.innerHTML += `
-            <p>
-                <img src="${getChannelAvatarPath(message.channelId)}" alt="Avatar">
-                <strong>${message.author || "Utilisateur inconnu"}</strong>
-                <span>${message.Contents || "[Pièce jointe]"}</span>
+            <div>
+                <img class="avatarMsg" src="${getChannelAvatarPath(message.channelId)}" alt="Avatar">
+                <span>${messageContent}</span>
+                ${attachmentHTML}
                 <time>${message.Timestamp || "Date inconnue"}</time>
-            </p>
+            </div>
         `;
     });
 }
