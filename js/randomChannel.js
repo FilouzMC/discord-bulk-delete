@@ -125,7 +125,10 @@ function renderMessages(messages, conversationElement) {
             const attachmentLink = message.Attachments;
             const ext = getFileExtension(attachmentLink); // Utilise la fonction pour récupérer l'extension
             if (["jpg", "jpeg", "png", "gif", "bmp"].includes(ext)) {
-                attachmentHTML = `<br><img src="${attachmentLink}" alt="Attachement" style="max-width:100%;display:block;margin-top:8px;">`;
+                attachmentHTML = `
+                <a href="${attachmentLink}" target="_blank" rel="noopener noreferrer">
+                    <img src="${attachmentLink}" alt="Attachement" style="max-width:50%;display:block;margin-top:8px;">
+                </a>`
             } else {
                 attachmentHTML = `<a href="${attachmentLink}" target="_blank" rel="noopener noreferrer">Télécharger l'attachement</a>`;
             }
