@@ -2,11 +2,13 @@
 
 /* Background général */
 body {
+    overflow: hidden;
     background-color: #323339;
-    /* Remplacez par votre couleur hexadécimale */
+    height: 100vh; /* Force la hauteur à être égale à la hauteur de la fenêtre */
     margin: 0;
     font-family: OpenSans, Arial, sans-serif;
-    color: white
+    color: white;
+    flex-direction: column;
 }
 
 /* Button 1 */
@@ -173,17 +175,12 @@ select::-ms-expand {
 /* Div centrée en bas */
 .floating-div {
     position: fixed;
-    bottom: 20px;
-    /* Distance du bas de la fenêtre */
-    left: 50%;
-    /* Position horizontale au milieu */
-    transform: translateX(-50%);
-    /* Centrer horizontalement */
+    bottom: 20px; /* Distance du bas de la fenêtre */
+    right: 20px; /* Distance du côté droit de la fenêtre */
+    transform: none; /* Supprime la transformation horizontale */
     display: flex;
-    gap: 10px;
-    /* Espacement entre les boutons */
-    background-color: #2c2d32;
-    /* Couleur de fond */
+    gap: 10px; /* Espacement entre les boutons */
+    background-color: #2c2d32; /* Couleur de fond */
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -353,87 +350,58 @@ select::-ms-expand {
 /* Conteneur principal pour le profil et la conversation */
 #main-container {
     display: flex;
-    justify-content: space-between;
-    /* Sépare le profil et la conversation */
-    align-items: flex-start;
-    /* Aligne les éléments en haut */
-    gap: 20px;
-    /* Espacement entre le profil et la conversation */
-    margin: 20px;
+    flex-direction: row;
+    gap: 10px; /* Espacement entre les colonnes */
+    height: 90vh; /* Prend toute la hauteur de la fenêtre */
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-/* Style pour le conteneur du profil */
-#output {
-    display: flex;
-    align-items: center;
-    /* Centre verticalement l'avatar et le texte */
-    gap: 20px;
-    /* Espacement entre l'avatar et le texte */
-    background-color: #2c2d32;
-    /* Fond sombre pour le profil */
+/* Section de la conversation */
+#conversation {
+    flex: 3; /* Prend 3/4 de l'espace */
+    background-color: #2c2d32; /* Fond sombre pour la conversation */
+    padding: 5px;
+    border-radius: 10px;
+    overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+/* Section des informations */
+#infos {
+    flex: 1; /* Prend 1/4 de l'espace */
+    background-color: #1e1f23; /* Fond sombre pour la section des informations */
     padding: 20px;
     border-radius: 10px;
-    /* Coins arrondis */
+    overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    /* Ombre pour un effet flottant */
-    max-width: 300px;
-    /* Largeur maximale */
-    flex-shrink: 0;
-    /* Empêche le profil de rétrécir */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 /* Style pour l'avatar */
-#output .avatar img {
-    border-radius: 50%;
-    /* Avatar arrondi */
+#infos .avatar img {
+    border-radius: 50%; /* Avatar arrondi */
     width: 100px;
-    /* Taille de l'avatar */
     height: 100px;
-    /* Taille de l'avatar */
     object-fit: cover;
-    /* Ajuste l'image pour qu'elle remplisse le cadre */
+    margin-bottom: 10px;
 }
 
-/* Style pour le texte à droite de l'avatar */
-#output div {
-    display: flex;
-    flex-direction: column;
-    /* Aligne les éléments verticalement */
-    justify-content: center;
-    /* Centre verticalement le texte */
-    color: white;
-    /* Couleur du texte */
-}
-
-/* Style pour le nom (h3) */
-#output h3 {
+/* Style pour les textes dans #output */
+#infos h3 {
     font-size: 1.5rem;
-    /* Taille du texte plus grande */
-    margin: 0;
-    /* Supprime les marges */
-    font-weight: bold;
+    margin-bottom: 10px;
 }
 
-/* Style pour les descriptions (p) */
-#output p {
-    margin: 5px 0;
-    /* Espacement vertical entre les paragraphes */
+#infos p {
     font-size: 1rem;
-    /* Taille du texte */
     color: #b0b0b0;
-    /* Couleur grise pour les descriptions */
-}
-
-/* Style pour la conversation */
-#conversation {
-    flex-grow: 1; /* La conversation prend tout l'espace restant */
-    background-color: #2c2d32; /* Fond sombre pour la conversation */
-    padding: 20px;
-    border-radius: 10px; /* Coins arrondis */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre pour un effet flottant */
-    color: white; /* Couleur du texte */
-    max-height: 500px; /* Hauteur maximale */
-    overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+    margin: 5px 0;
 }
 
 /* Style pour chaque message */
@@ -479,5 +447,10 @@ select::-ms-expand {
     font-size: 0.8rem; /* Taille plus petite */
     color: #8c8c8c; /* Couleur grise pour la date */
     font-style: italic; /* Style italique pour différencier */
+}
+
+#conversation,
+#infos {
+    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur */
 }
 

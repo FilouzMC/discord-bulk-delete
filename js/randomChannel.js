@@ -45,23 +45,23 @@ export async function afficherChannelAleatoire() {
 
         // Affichage initial
         output.innerHTML = `
-            <div id="main-container">
-                <!-- Section de la conversation -->
-                <div id="conversation"></div>
+    <div id="main-container">
+        <!-- Section de la conversation -->
+        <div id="conversation"></div>
 
-                <!-- Section du profil -->
-                <div id="output">
-                    <div class="avatar">
-                        <img src="${avatarPath}" alt="Avatar">
-                    </div>
-                    <div>
-                        <h3>${nomChannel}</h3>
-                        <p>${indexLabel}</p>
-                        <p>${msg?.messages.length || 0} messages envoyés</p>
-                    </div>
-                </div>
+        <!-- Section des informations -->
+        <div id="infos">
+            <div class="avatar">
+                <img src="${avatarPath}" alt="Avatar">
             </div>
-        `;
+            <div>
+                <h3>${nomChannel}</h3>
+                <p>${indexLabel}</p>
+                <p>${msg?.messages.length || 0} messages envoyés</p>
+            </div>
+        </div>
+    </div>
+`;
 
         const conversationElement = document.getElementById("conversation");
 
@@ -125,7 +125,7 @@ function renderMessages(messages, conversationElement) {
             const attachmentLink = message.Attachments;
             const ext = getFileExtension(attachmentLink); // Utilise la fonction pour récupérer l'extension
             if (["jpg", "jpeg", "png", "gif", "bmp"].includes(ext)) {
-                attachmentHTML = `<img src="${attachmentLink}" alt="Attachement" style="max-width:100%;display:block;margin-top:8px;">`;
+                attachmentHTML = `<br><img src="${attachmentLink}" alt="Attachement" style="max-width:100%;display:block;margin-top:8px;">`;
             } else {
                 attachmentHTML = `<a href="${attachmentLink}" target="_blank" rel="noopener noreferrer">Télécharger l'attachement</a>`;
             }
