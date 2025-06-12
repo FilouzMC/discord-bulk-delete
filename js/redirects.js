@@ -1,7 +1,7 @@
 /**
- * Vérifie si une clé existe dans le localStorage et redirige si nécessaire.
- * @param {string} key - La clé à vérifier dans le localStorage.
- * @param {string} redirectUrl - L'URL vers laquelle rediriger si la clé est absente.
+ * Checks if a key exists in localStorage and redirects if necessary.
+ * @param {*} key - The key to check in localStorage.
+ * @param {*} redirectUrl - The URL to redirect to if the key is absent.
  */
 export function checkLocalStorageKeyAndRedirect(key, redirectUrl) {
     if (!localStorage.getItem(key)) {

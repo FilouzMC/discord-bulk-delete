@@ -1,7 +1,7 @@
 /**
- * Extrait le nom significatif d'un channel à partir de son indexLabel
- * @param {string} indexLabel - Label du channel depuis indexJson
- * @returns {string} - Nom extrait du channel
+ * Gets a meaningful name for a channel from its indexLabel
+ * @param {*} indexLabel 
+ * @returns 
  */
 export function extraireNomChannel(indexLabel) {
 	// Si l'indexLabel n'existe pas
@@ -31,10 +31,10 @@ export function extraireNomChannel(indexLabel) {
 }
 
 /**
- * Génère un chemin d'avatar basé sur l'ID du channel
- * @param {string} channelId - ID du channel Discord
- * @param {number} totalAvatars - Nombre total d'avatars disponibles (par défaut: 10)
- * @returns {string} - Chemin vers l'image de l'avatar
+ * Generates a avatar path based on the channel ID
+ * @param {*} channelId 
+ * @param {*} totalAvatars 
+ * @returns 
  */
 export function getChannelAvatarPath(channelId, totalAvatars = 5) {
 	// Vérifier si l'ID existe, utiliser le premier avatar comme fallback
@@ -53,9 +53,10 @@ export function getChannelAvatarPath(channelId, totalAvatars = 5) {
 	return `/img/avatars/${avatarNumber}.png`;
 }
 
-/* Fonction pour récupérer le profil utilisateur Discord
- * @param {string} userId - ID de l'utilisateur Discord
- * @returns {Promise<object>} - Données du profil utilisateur
+/**
+ * Function to retrieve the Discord user profile
+ * @param {*} userId 
+ * @returns 
  */
 export async function getUserProfile(userId) {
 	const url = `https://discord.com/api/v10/users/${userId}`;
@@ -80,6 +81,7 @@ export async function getUserProfile(userId) {
 	}
 }
 
+// Function to get the file extension from a URL
 export function getFileExtension(url) {
     // Utilise une expression régulière pour capturer l'extension avant les paramètres
     const match = url.match(/\.([a-zA-Z0-9]+)(?=\?|#|$)/);

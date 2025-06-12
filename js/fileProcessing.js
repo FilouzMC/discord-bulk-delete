@@ -1,29 +1,29 @@
 import { saveToIndexedDB, STORE_INDEX, STORE_CHANNELS, STORE_MESSAGES } from "./db.js";
 
-// 📂 Import de index.json
+// 📂 Import index.json
 document.getElementById('zipInput').addEventListener('change', async function (event) {
 	const file = event.target.files[0];
 	if (!file) return;
 
-	document.getElementById('status').textContent = "Chargement de l'archive...";
+	document.getElementById('status').textContent = "Loading...";
 
 	try {
 		const zip = await JSZip.loadAsync(file);
 
-		// === 1. Lire messages/index.json ===
+		// === 1. Read messages/index.json ===
 		const jsonFile = zip.file("messages/index.json");
-		if (!jsonFile) throw new Error("Fichier messages/index.json introuvable !");
+		if (!jsonFile) throw new Error("Files messages/index.json not found !");
 		const indexContent = await jsonFile.async("string");
 		const indexJson = JSON.parse(indexContent);
 		await saveToIndexedDB(STORE_INDEX, "indexJson", indexJson);
 
-		// === 2. Lire account/user.json ===
+		// === 2. Read account/user.json ===
 		const userFile = zip.file("account/user.json");
-		if (!userFile) throw new Error("Fichier account/user.json introuvable !");
+		if (!userFile) throw new Error("Files account/user.json not found !");
 		const userContent = await userFile.async("string");
 		const userJson = JSON.parse(userContent);
 
-		// Sauvegarde dans localStorage
+		// Save to localStorage
 		localStorage.setItem("userId", userJson.id);
 		localStorage.setItem("username", userJson.username);
 
@@ -43,19 +43,20 @@ document.getElementById('zipInput').addEventListener('change', async function (e
 			}
 		}
 
-		document.getElementById('status').textContent = "Index + utilisateur importés avec succès !";
+		document.getElementById('status').textContent = "Index + user import successfully !";
 	} catch (error) {
 		console.error(error);
-		document.getElementById('status').textContent = "Erreur : " + error.message;
+		document.getElementById('status').textContent = "Error : " + error.message;
 	}
 });
 
 // 📚 Traitement complet des channels (channel.json + messages.json)
+// 📚 Process all channels (channel.json + messages.json)
 export async function processAllChannels() {
 	try {
 		const zipInput = document.getElementById('zipInput');
 		const file = zipInput.files[0];
-		if (!file) throw new Error("Aucun fichier ZIP sélectionné.");
+		if (!file) throw new Error("No ZIP file selected.");
 
 		const zip = await JSZip.loadAsync(file);
 		const channelFolders = Object.keys(zip.files).filter(path => path.startsWith("messages/c") && path.endsWith("/"));
@@ -77,14 +78,15 @@ export async function processAllChannels() {
 			console.log(`✅ Channel ${channelId} stocké`);
 		}
 
-		document.getElementById('status').textContent = "Tous les channels ont été traités avec succès !";
+		document.getElementById('status').textContent = "All channels processed successfully!";
 		// Recharger la page après un délai court
+		// Reload the page after a short delay
 		setTimeout(() => {
 			location.reload();
 		}, 1500);
 
 	} catch (error) {
 		console.error(error);
-		document.getElementById('status').textContent = "Erreur : " + error.message;
+		document.getElementById('status').textContent = "Error  : " + error.message;
 	}
 }
