@@ -45,17 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    const url1 = "https://cdn.discordapp.com/attachments/12131331331313113/24242242424242/unknown.png?ex=0&is=6800ef90";
-    const url2 = "https://example.com/file.jpg#section";
-    const url3 = "https://example.com/no-extension";
-
-    console.log(getFileExtension(url1)); // "png"
-    console.log(getFileExtension(url2)); // "jpg"
-    console.log(getFileExtension(url3)); // null
-
     window.selectedOption = "DM"; // Valeur par défaut
     updateCompteurRestants();
     afficherChannelAleatoire();
+
 });
 
 document.getElementById('zipInput').addEventListener('change', async function (event) {
