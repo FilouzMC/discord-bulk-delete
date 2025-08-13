@@ -291,24 +291,46 @@ select::-ms-expand {
     margin-bottom: 20px;
 }
 
-.popupSettings-content a.importButton:hover {
-    transform: scale(1.05);
-}
-
 /* Button : Delete DB */
 .popupSettings-content a.deleteDbButton {
     background-color: #e74c3c;
     margin-bottom: 20px;
 }
 
-.popupSettings-content a.deleteDbButton:hover {
-    transform: scale(1.05);
-}
-
 /* Button : Close */
 .popupSettings-content a.closeSettings {
-    background-color: transparent;
+    background-color: #bd3c33;
     border-color: white;
+}
+
+.popupSettings-content a.closeSettings img {
+    width: 30px;
+    height: 30px;
+    filter: invert(1);
+    /* Rend l'icône blanche pour s'adapter au fond sombre */
+}
+
+a.ghButton {
+    background-color: #24292e;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 5%;
+    width: 30%;
+    align-self: center;
+}
+
+a.ghButton img {
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+    /* Rend l'icône blanche pour s'adapter au fond sombre */
+}
+
+.btn:hover {
+    transform: scale(1.05);
 }
 
 .popupSettings-content a.closeSettings:hover {

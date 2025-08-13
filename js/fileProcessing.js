@@ -43,7 +43,7 @@ document.getElementById('zipInput').addEventListener('change', async function (e
 			}
 		}
 
-		document.getElementById('status').textContent = "Index + user import successfully !";
+		document.getElementById('status').textContent = "Loading... Index + user import successfully !";
 	} catch (error) {
 		console.error(error);
 		document.getElementById('status').textContent = "Error : " + error.message;
@@ -78,7 +78,7 @@ export async function processAllChannels() {
 			console.log(`✅ Channel ${channelId} stocké`);
 		}
 
-		document.getElementById('status').textContent = "All channels processed successfully!";
+		document.getElementById('status').textContent = "All channels processed successfully! Please wait...";
 		// Recharger la page après un délai court
 		// Reload the page after a short delay
 		setTimeout(() => {

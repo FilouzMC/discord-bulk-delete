@@ -27,12 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Gestion de la sélection du fichier
     document.getElementById('importFile').addEventListener('change', async function (event) {
         const statusEl = document.getElementById('importStatus');
-        statusEl.textContent = "Importation en cours...";
+        statusEl.textContent = "Importing... Please wait...";
         statusEl.style.color = "blue";
 
         try {
             await importerBaseDeDonnees(this);
-            statusEl.textContent = "Importation réussie! Rechargement de la page...";
+            statusEl.textContent = "Import success ! Please wait..";
             statusEl.style.color = "green";
 
             // Recharger la page après un délai court
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 location.reload();
             }, 1500);
         } catch (error) {
-            statusEl.textContent = `Erreur: ${error}`;
+            statusEl.textContent = `Error: ${error}`;
             statusEl.style.color = "red";
         }
     });
@@ -55,7 +55,7 @@ document.getElementById('zipInput').addEventListener('change', async function (e
     const file = event.target.files[0];
     if (!file) return;
 
-    document.getElementById('status').textContent = "Chargement de l'archive...";
+    document.getElementById('status').textContent = "Please wait...";
 
     try {
         const zip = await JSZip.loadAsync(file);
@@ -65,9 +65,9 @@ document.getElementById('zipInput').addEventListener('change', async function (e
         //await processAvatar(zip);
         await processAllChannels(zip);
 
-        document.getElementById('status').textContent = "Tous les fichiers ont été traités avec succès !";
+        document.getElementById('status').textContent = "All files have been processed successfully!";
     } catch (error) {
         console.error(error);
-        document.getElementById('status').textContent = "Erreur : " + error.message;
+        document.getElementById('status').textContent = "Error: " + error.message;
     }
 });

@@ -1,4 +1,4 @@
-import { afficherChannelAleatoire } from "./randomChannel.js";
+import { afficherChannelAleatoire, updateCompteurRestants } from "./randomChannel.js";
 import { openDB, saveToIndexedDB, getItemFromIndexedDB, STORE_CHANNELS, STORE_KEEP, STORE_DELETE } from "./db.js";
 
 // 🔄 Transférer un channel d'un store à un autre
@@ -45,6 +45,7 @@ export async function garderChannel() {
 
     await transferChannel(window.currentChannelId, STORE_CHANNELS, STORE_KEEP);
     await afficherChannelAleatoire();
+    await updateCompteurRestants();
 }
 
 // ❌ "Keep" or "Delete" a channel
@@ -66,6 +67,7 @@ export async function supprimerChannel() {
 
     await transferChannel(window.currentChannelId, STORE_CHANNELS, STORE_DELETE);
     await afficherChannelAleatoire();
+    await updateCompteurRestants();
 }
 
 // 🔄 Revenir en arrière

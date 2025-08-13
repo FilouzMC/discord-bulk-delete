@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projet DBD</title>
+    <title>Discord Bulk Delete</title>
     <link rel="stylesheet" href="./css/style.css" />
 </head>
 
@@ -62,13 +62,13 @@
             </a>
         </div>
 
-        <!-- Popup pour les paramètres -->
+        <!-- Popup for the settings -->
         <div id="settingsPopup" class="popupSettings hiddenSettings">
             <div class="popupSettings-content">
-                <h2>Paramètres</h2>
+                <h2>Settings</h2>
                 <div class="backup-controls">
-                    <a href="#" id="exportButton" class="exportButton btn">Exporter la base de données</a>
-                    <a href="#" id="importButton" class="importButton btn">Importer une base de données</a>
+                    <a href="#" id="exportButton" class="exportButton btn">Export the database</a>
+                    <a href="#" id="importButton" class="importButton btn">Import the database</a>
 
                     <!-- Input caché pour la sélection de fichier -->
                     <input type="file" id="importFile" accept="application/json" style="display: none;" />
@@ -76,16 +76,23 @@
                     <!-- Message de statut pour l'utilisateur -->
                     <div id="importStatus" style="margin-top: 10px;"></div>
                 </div>
-                <a href="#" id="deleteDbButton" class="deleteDbButton btn">Supprimer la base de données</a>
-                <a href="#" id="closeSettings" class="closeSettings btn">Fermer</a>
-            </div>
+                <a href="#" id="deleteDbButton" class="deleteDbButton btn">Delete the database</a>
+                <a href="#" id="closeSettings" class="closeSettings btn">
+                    <img src="/img/icons/close.svg" alt="Close">
+                    Close
+                </a>
+                <a target="_blank" href="https://github.com/FilouzMC/discord-bulk-delete" class="ghButton btn">
+                    <img src="/img/icons/github.svg" alt="GitHub">
+                    GitHub</a>
+                </a>            </div>
         </div>
 
-        <!-- Popup pour importer l'archive Discord -->
+        <!-- Popup for import Discord's archive -->
         <div id="importPopup" class="popupImport hiddenImport">
             <div class="popupImport-content">
-                <h2>Importer l'archive Discord</h2>
-                <p>Sélectionner le fichier d'archive Discord (format zip)</p>
+                <img width="250" src="/img/Logo_DBD_White.svg" alt="Logo">
+                <h2>Import the Discord's archive</h2>
+                <p>Select the Discord's archive file (zip format)</p>
                 <input type="file" id="zipInput" accept=".zip">
                 <div id="status"></div>
                 <div id="output"></div>

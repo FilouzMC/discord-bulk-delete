@@ -7,6 +7,7 @@ document.getElementById("channelType").addEventListener("change", (event) => {
 
     // Show selected option in the output
     console.log(`Select : ${selectedOption}`);
+    afficherChannelAleatoire();
 });
 
 
@@ -59,6 +60,7 @@ export async function afficherChannelAleatoire() {
             </div>
             <div>
                 <h3>${nomChannel}</h3>
+                <p>${channel.id}</p>
                 <p>${indexLabel}</p>
                 <p>${msg?.messages.length || 0} messages envoyés</p>
             </div>
