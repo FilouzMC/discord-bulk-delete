@@ -1,3 +1,5 @@
+// TODO : Transform the code to use Express.js for serving static files and handling routes
+
 const express = require('express');
 const path = require('path');
 const app = express();

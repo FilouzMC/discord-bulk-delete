@@ -63,6 +63,7 @@ export async function afficherChannelAleatoire() {
                 <p>${channel.id}</p>
                 <p>${indexLabel}</p>
                 <p>${msg?.messages.length || 0} messages envoyés</p>
+                <p>${channel.recipients}</p>
             </div>
         </div>
     </div>
