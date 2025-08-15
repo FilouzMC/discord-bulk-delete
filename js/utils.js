@@ -23,7 +23,7 @@ export function extraireNomChannel(indexLabel) {
 
 	// Cas 3: Groupe sans nom
 	if (indexLabel === "None") {
-		return "Groupe sans nom";
+		return "No Name Group";
 	}
 
 	// Cas 4: Groupe avec nom ou autres cas
@@ -86,4 +86,75 @@ export function getFileExtension(url) {
     // Utilise une expression régulière pour capturer l'extension avant les paramètres
     const match = url.match(/\.([a-zA-Z0-9]+)(?=\?|#|$)/);
     return match ? match[1].toLowerCase() : null; // Retourne l'extension en minuscule ou null si aucune extension trouvée
+}
+
+// Function to get the avatar data URL from localStorage
+export function getAvatarDataUrlFromLocalStorage() {
+	const avatarFileName = localStorage.getItem("avatarFileName");
+	const avatarData = localStorage.getItem("avatarData");
+
+	if (avatarFileName && avatarData) {
+		return `data:image/${getFileExtension(avatarFileName)};base64,${avatarData}`;
+	}
+	return null; // Retourne null si aucune donnée d'avatar n'est trouvée
+}
+
+let _recipientCopyInit = false;
+
+/**
+ * Initialise (une seule fois) la copie d'ID pour les recipients.
+ * - Clic sur .recipient-copy-btn => copie l'ID (data-copy)
+ * - Clic sur .recipient-item => copie l'ID (data-user-id) si pas déjà sur le bouton
+ */
+export function initRecipientCopyListener() {
+    if (_recipientCopyInit) return;
+    _recipientCopyInit = true;
+
+    document.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.recipient-copy-btn');
+        const item = btn ? null : e.target.closest('.recipient-item');
+        const idToCopy = btn?.getAttribute('data-copy') || item?.dataset.userId;
+        if (!idToCopy) return;
+
+        const target = btn || item;
+
+        const ok = await copyText(idToCopy);
+        if (!ok) {
+            alert("Impossible de copier l'ID");
+            return;
+        }
+
+        const originalHTML = btn ? btn.innerHTML : null;
+        target.classList.add('copied');
+        if (btn) btn.textContent = "✔";
+        setTimeout(() => {
+            target.classList.remove('copied');
+            if (btn) btn.innerHTML = originalHTML;
+        }, 1200);
+    });
+}
+
+/**
+ * Copie texte (navigator.clipboard fallback textarea)
+ */
+export async function copyText(text) {
+    try {
+        if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+            return true;
+        }
+    } catch {}
+    try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        return true;
+    } catch {
+        return false;
+    }
 }

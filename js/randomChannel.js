@@ -1,5 +1,5 @@
 import { getAllFromIndexedDB, getItemFromIndexedDB, STORE_CHANNELS, STORE_MESSAGES, STORE_INDEX } from "./db.js";
-import { extraireNomChannel, getChannelAvatarPath, getFileExtension } from "./utils.js";
+import { extraireNomChannel, getAvatarDataUrlFromLocalStorage, getChannelAvatarPath, getFileExtension, initRecipientCopyListener } from "./utils.js";
 
 document.getElementById("channelType").addEventListener("change", (event) => {
     window.selectedOption = event.target.value;
@@ -46,6 +46,39 @@ export async function afficherChannelAleatoire() {
         const nomChannel = extraireNomChannel(indexLabel);
         const avatarPath = getChannelAvatarPath(channel.id);
 
+        // Get the recipients and intégrate them into the HTML
+        function buildRecipientsHTML(recipients) {
+            if (!recipients) return '<div class="recipients"><p>Aucun destinataire</p></div>';
+            // Normaliser en tableau
+            const ids = Array.isArray(recipients)
+                ? recipients
+                : String(recipients)
+                    .split(/[,;\s]+/)
+                    .map(s => s.trim())
+                    .filter(Boolean);
+
+            const count = ids.length;
+            const items = ids.map(id => `
+                <div class="recipient-item" data-user-id="${id}">
+                    <div class="recipient-avatar">
+                        <img src="${getChannelAvatarPath(id)}" alt="Avatar of ${id}">
+                    </div>
+                    <a class="recipient-info">
+                        <span class="recipient-name">${id}</span>
+                    </div>
+                </div>
+            `).join("");
+
+            return `
+                <div class="recipients">
+                    <h3>${count} participant${count > 1 ? "s" : ""}</h4>
+                    <a class="recipients-list">${items}</a>
+                </div>
+            `;
+        }
+
+        const recipientsHTML = buildRecipientsHTML(channel.recipients);
+
         // Affichage initial
         // Initial display
         output.innerHTML = `
@@ -62,12 +95,14 @@ export async function afficherChannelAleatoire() {
                 <h3>${nomChannel}</h3>
                 <p>${channel.id}</p>
                 <p>${indexLabel}</p>
-                <p>${msg?.messages.length || 0} messages envoyés</p>
-                <p>${channel.recipients}</p>
+                <p>${msg?.messages.length || 0} messages send</p>
+                ${recipientsHTML}
             </div>
         </div>
     </div>
 `;
+
+        initRecipientCopyListener();
 
         const conversationElement = document.getElementById("conversation");
 
@@ -88,7 +123,7 @@ export async function afficherChannelAleatoire() {
             if (msg.messages.length > messagesParPage) {
                 const restants = msg.messages.length - messagesParPage;
                 conversationElement.innerHTML += `
-                    <a href="#" id="loadMoreMessages" class="btn btn-primary mt-3">
+                    <a href="#" id="loadMoreMessages" class="btn">
                         See more (${restants} messages remaining)
                     </a>`;
 
@@ -140,13 +175,13 @@ function renderMessages(messages, conversationElement) {
                     <img src="${attachmentLink}" alt="Attachement" style="max-width:50%;display:block;margin-top:8px;">
                 </a>`
             } else {
-                attachmentHTML = `<a href="${attachmentLink}" target="_blank" rel="noopener noreferrer">Download the attachement</a>`;
+                attachmentHTML = `<a href="${attachmentLink}" target="_blank" rel="noopener noreferrer">Download the attachement (${ext})</a>`;
             }
         }
 
         conversationElement.innerHTML += `
             <div>
-                <img class="avatarMsg" src="${getChannelAvatarPath(message.channelId)}" alt="Avatar">
+                <img class="avatarMsg" src="${getChannelAvatarPath()}" alt="Avatar">
                 <span>${messageContent}</span>
                 ${attachmentHTML}
                 <time>${message.Timestamp || "Unknown date"}</time>
@@ -194,7 +229,7 @@ function loadMoreMessages(allMessages, conversationElement) {
     const restants = allMessages.length - endIndex;
     if (restants > 0) {
         conversationElement.innerHTML += `
-            <a href="#" id="loadMoreMessages" class="btn btn-primary mt-3">
+            <a href="#" id="loadMoreMessages" class="btn" style="margin-top: 10px;">
                 See more (${restants} messages remaining)
             </a>`;
 
@@ -224,4 +259,10 @@ export async function updateCompteurRestants() {
         const filteredChannels = channels.filter(channel => channel.type === window.selectedOption);
         channelsTypeElement.textContent = `Channels for the type ${window.selectedOption} : ${filteredChannels.length}`;
     }
+}
+
+function getRecipientNames(recipients) {
+    if (!recipients || recipients.length === 0) return "No recipients";
+
+    return recipients.map(recipient => recipient.username || recipient.id).join(", ");
 }

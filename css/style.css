@@ -476,3 +476,48 @@ a.ghButton img {
     box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur */
 }
 
+/* Style for the recipients list */
+.recipient-item {
+    display: flex;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #2c2d32; /* Fond sombre pour la liste des participants */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre légère pour les éléments de la liste */
+    text-align: left;
+    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le cadre */
+    cursor: pointer; /* Curseur pointeur pour indiquer que c'est cliquable */
+    gap: 10px; /* Espacement entre l'avatar et le texte */
+    align-items: center; /* Centre verticalement l'avatar et le texte */
+}
+
+.recipient-info a {
+    color: #b0b0b0; /* Couleur grise pour le texte */
+}
+
+.recipient-avatar img {
+    width: 50px;
+    border-radius: 50%; /* Avatar arrondi */
+}
+
+.copy-btn {
+    background:#444;
+    color:#fff;
+    border:1px solid #666;
+    border-radius:4px;
+    font-size:12px;
+    padding:2px 6px;
+    cursor:pointer;
+}
+.copy-btn:hover { background:#555; }
+
+.recipient-item.copied,
+.copy-btn.copied {
+    background:#265b2c !important;
+}
+.copy-hint {
+    font-size:11px;
+    opacity:.6;
+    margin:0;
+    flex-basis:100%;
+}
