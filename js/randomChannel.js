@@ -1,5 +1,5 @@
 import { getAllFromIndexedDB, getItemFromIndexedDB, STORE_CHANNELS, STORE_MESSAGES, STORE_INDEX } from "./db.js";
-import { extraireNomChannel, getAvatarDataUrlFromLocalStorage, getChannelAvatarPath, getFileExtension, initRecipientCopyListener } from "./utils.js";
+import { extraireNomChannel, getAvatarDataUrlFromLocalStorage, getChannelAvatarPath, getFileExtension } from "./utils.js";
 
 document.getElementById("channelType").addEventListener("change", (event) => {
     window.selectedOption = event.target.value;
@@ -49,7 +49,8 @@ export async function afficherChannelAleatoire() {
         // Get the recipients and intégrate them into the HTML
         function buildRecipientsHTML(recipients) {
             if (!recipients) return '<div class="recipients"><p>Aucun destinataire</p></div>';
-            // Normaliser en tableau
+            const currentUserId = localStorage.getItem("userId");
+
             const ids = Array.isArray(recipients)
                 ? recipients
                 : String(recipients)
@@ -58,21 +59,26 @@ export async function afficherChannelAleatoire() {
                     .filter(Boolean);
 
             const count = ids.length;
-            const items = ids.map(id => `
+            const items = ids.map(id => {
+                const isSelf = id === currentUserId;
+                const youTag = isSelf ? '<span class="you-tag">(you)</span>' : '';
+                return `
                 <div class="recipient-item" data-user-id="${id}">
                     <div class="recipient-avatar">
                         <img src="${getChannelAvatarPath(id)}" alt="Avatar of ${id}">
                     </div>
-                    <a class="recipient-info">
+                    <div class="recipient-info">
                         <span class="recipient-name">${id}</span>
+                        <br>
+                        ${youTag}
                     </div>
-                </div>
-            `).join("");
+                </div>`;
+            }).join("");
 
             return `
                 <div class="recipients">
-                    <h3>${count} participant${count > 1 ? "s" : ""}</h4>
-                    <a class="recipients-list">${items}</a>
+                    <h3>${count} participant${count > 1 ? "s" : ""}</h3>
+                    <div class="recipients-list">${items}</div>
                 </div>
             `;
         }
@@ -101,8 +107,6 @@ export async function afficherChannelAleatoire() {
         </div>
     </div>
 `;
-
-        initRecipientCopyListener();
 
         const conversationElement = document.getElementById("conversation");
 

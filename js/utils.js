@@ -101,60 +101,60 @@ export function getAvatarDataUrlFromLocalStorage() {
 
 let _recipientCopyInit = false;
 
-/**
- * Initialise (une seule fois) la copie d'ID pour les recipients.
- * - Clic sur .recipient-copy-btn => copie l'ID (data-copy)
- * - Clic sur .recipient-item => copie l'ID (data-user-id) si pas déjà sur le bouton
- */
-export function initRecipientCopyListener() {
-    if (_recipientCopyInit) return;
-    _recipientCopyInit = true;
+// /**
+//  * Initialise (une seule fois) la copie d'ID pour les recipients.
+//  * - Clic sur .recipient-copy-btn => copie l'ID (data-copy)
+//  * - Clic sur .recipient-item => copie l'ID (data-user-id) si pas déjà sur le bouton
+//  */
+// export function initRecipientCopyListener() {
+//     if (_recipientCopyInit) return;
+//     _recipientCopyInit = true;
 
-    document.addEventListener('click', async (e) => {
-        const btn = e.target.closest('.recipient-copy-btn');
-        const item = btn ? null : e.target.closest('.recipient-item');
-        const idToCopy = btn?.getAttribute('data-copy') || item?.dataset.userId;
-        if (!idToCopy) return;
+//     document.addEventListener('click', async (e) => {
+//         const btn = e.target.closest('.recipient-copy-btn');
+//         const item = btn ? null : e.target.closest('.recipient-item');
+//         const idToCopy = btn?.getAttribute('data-copy') || item?.dataset.userId;
+//         if (!idToCopy) return;
 
-        const target = btn || item;
+//         const target = btn || item;
 
-        const ok = await copyText(idToCopy);
-        if (!ok) {
-            alert("Impossible de copier l'ID");
-            return;
-        }
+//         const ok = await copyText(idToCopy);
+//         if (!ok) {
+//             alert("Impossible de copier l'ID");
+//             return;
+//         }
 
-        const originalHTML = btn ? btn.innerHTML : null;
-        target.classList.add('copied');
-        if (btn) btn.textContent = "✔";
-        setTimeout(() => {
-            target.classList.remove('copied');
-            if (btn) btn.innerHTML = originalHTML;
-        }, 1200);
-    });
-}
+//         const originalHTML = btn ? btn.innerHTML : null;
+//         target.classList.add('copied');
+//         if (btn) btn.textContent = "✔";
+//         setTimeout(() => {
+//             target.classList.remove('copied');
+//             if (btn) btn.innerHTML = originalHTML;
+//         }, 1200);
+//     });
+// }
 
-/**
- * Copie texte (navigator.clipboard fallback textarea)
- */
-export async function copyText(text) {
-    try {
-        if (navigator.clipboard?.writeText) {
-            await navigator.clipboard.writeText(text);
-            return true;
-        }
-    } catch {}
-    try {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        return true;
-    } catch {
-        return false;
-    }
-}
+// /**
+//  * Copie texte (navigator.clipboard fallback textarea)
+//  */
+// export async function copyText(text) {
+//     try {
+//         if (navigator.clipboard?.writeText) {
+//             await navigator.clipboard.writeText(text);
+//             return true;
+//         }
+//     } catch {}
+//     try {
+//         const ta = document.createElement('textarea');
+//         ta.value = text;
+//         ta.style.position = 'fixed';
+//         ta.style.opacity = '0';
+//         document.body.appendChild(ta);
+//         ta.select();
+//         document.execCommand('copy');
+//         document.body.removeChild(ta);
+//         return true;
+//     } catch {
+//         return false;
+//     }
+// }
