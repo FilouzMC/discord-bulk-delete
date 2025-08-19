@@ -27,7 +27,7 @@ Reality: Discord might ask for a precise, structured list of conversations (chan
 - Quickly classify each conversation (Keep / Delete)
 - Export a clean text file listing the conversations I will send to Discord Support for deletion
 
-I do not know yet if the final deletion request will succeed. I will try. If it works, I will continue expanding the TODO list.
+🟡 I do not know yet if the final deletion request will succeed. I will try. If it works, I will continue expanding the TODO list.
 
 ---
 
@@ -55,7 +55,7 @@ I do not know yet if the final deletion request will succeed. I will try. If it 
 
 ---
 
-## Screenshots (placeholders)
+## Screenshots
 
 | Screen | Description |
 | ------ | ----------- |
@@ -141,7 +141,7 @@ Not guaranteed. This tool just helps you organize a precise list.
 
 ## License
 ```
-MIT License – see LICENSE (to add).
+MIT License – see LICENSE
 ```
 
 ---

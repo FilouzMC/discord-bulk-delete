@@ -4,6 +4,7 @@ import { garderChannel, supprimerChannel, annulerDerniereAction } from './js/tra
 import { telechargerChannelsToDelete, importerBaseDeDonnees, exporterBaseDeDonnees, supprimerBaseDeDonnees } from './js/db.js';
 import { ouvrirSettings, fermerSettings, verifierPremiereConnexion } from './js/popup.js';
 import { getUserProfile, getFileExtension } from './js/utils.js';
+import { initShortcuts } from './js/shortcuts.js'; // <-- NOUVEAU
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -48,6 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
     window.selectedOption = "DM"; // Valeur par défaut
     updateCompteurRestants();
     afficherChannelAleatoire();
+
+    // ---- INIT SHORTCUTS / OVERLAY ----
+    initShortcuts({
+        ' ': { fn: afficherChannelAleatoire, label: 'Random', color: '#3b82f6' },
+        'c': { fn: garderChannel,           label: 'Keep',   color: '#16a34a' },
+        's': { fn: supprimerChannel,        label: 'Delete', color: '#dc2626' },
+        'w': { fn: annulerDerniereAction,   label: 'Undo',   color: '#f59e0b' },
+        'e': { fn: exporterBaseDeDonnees,   label: 'Export', color: '#6366f1' }
+    });
 
 });
 

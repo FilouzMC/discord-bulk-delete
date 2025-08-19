@@ -506,3 +506,29 @@ a.ghButton img {
     opacity: 0.9;
     font-size: 0.85em;
 }
+
+/* Overlay */
+#shortcutOverlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(.85);
+    padding: 40px 70px;
+    font-size: 48px;
+    font-weight: 700;
+    font-family: system-ui, sans-serif;
+    background: #3b82f6;
+    color: #fff;
+    border-radius: 28px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.45);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: opacity .12s ease, transform .12s ease;
+}
+#shortcutOverlay.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
