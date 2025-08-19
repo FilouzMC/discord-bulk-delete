@@ -1,65 +1,129 @@
 import { processAllChannels } from './js/fileProcessing.js';
 import { afficherChannelAleatoire, updateCompteurRestants } from './js/randomChannel.js';
 import { garderChannel, supprimerChannel, annulerDerniereAction } from './js/transfer.js';
-import { telechargerChannelsToDelete, importerBaseDeDonnees, exporterBaseDeDonnees, supprimerBaseDeDonnees } from './js/db.js';
-import { ouvrirSettings, fermerSettings, verifierPremiereConnexion } from './js/popup.js';
-import { getUserProfile, getFileExtension } from './js/utils.js';
-import { initShortcuts } from './js/shortcuts.js'; // <-- NOUVEAU
+import { telechargerChannelsToDelete, exporterBaseDeDonnees, supprimerBaseDeDonnees, importerBaseDeDonnees } from './js/db.js';
+import { verifierPremiereConnexion, ouvrirSettings, fermerSettings } from './js/popup.js';
+import { initShortcuts, updateShortcut, resetShortcuts, getShortcutConfig } from './js/shortcuts.js';
+
+const DEFAULT_SHORTCUTS = {
+    random: ' ',
+    keep: 'c',
+    delete: 's',
+    undo: 'w',
+    export: 'e'
+};
 
 document.addEventListener("DOMContentLoaded", () => {
+    verifierPremiereConnexion();
 
-    verifierPremiereConnexion(); // Vérifie si c'est la première connexion et affiche la popup d'importation si nécessaire
-    // document.getElementById('processAllChannels').addEventListener('click', afficherChannelAleatoire);
-    document.getElementById('afficherChannelAleatoire').addEventListener('click', afficherChannelAleatoire);
-    document.getElementById('garderChannel').addEventListener('click', garderChannel);
-    document.getElementById('supprimerChannel').addEventListener('click', supprimerChannel);
-    document.getElementById('annulerDerniereAction').addEventListener('click', annulerDerniereAction);
-    document.getElementById('telechargerChannelsToDelete').addEventListener('click', telechargerChannelsToDelete);
-    document.getElementById('exportButton').addEventListener('click', exporterBaseDeDonnees);
-    document.getElementById('deleteDbButton').addEventListener('click', supprimerBaseDeDonnees);
-    document.getElementById('settingsButton').addEventListener('click', ouvrirSettings);
-    document.getElementById('closeSettings').addEventListener('click', fermerSettings);
+    document.getElementById('afficherChannelAleatoire')?.addEventListener('click', afficherChannelAleatoire);
+    document.getElementById('garderChannel')?.addEventListener('click', garderChannel);
+    document.getElementById('supprimerChannel')?.addEventListener('click', supprimerChannel);
+    document.getElementById('annulerDerniereAction')?.addEventListener('click', annulerDerniereAction);
+    document.getElementById('telechargerChannelsToDelete')?.addEventListener('click', telechargerChannelsToDelete);
+    document.getElementById('exportButton')?.addEventListener('click', exporterBaseDeDonnees);
+    document.getElementById('deleteDbButton')?.addEventListener('click', supprimerBaseDeDonnees);
+    document.getElementById('settingsButton')?.addEventListener('click', ouvrirSettings);
+    document.getElementById('closeSettings')?.addEventListener('click', fermerSettings);
 
-    // Bouton d'import - déclenche l'input file caché
-    document.getElementById('importButton').addEventListener('click', function () {
+    document.getElementById('importButton')?.addEventListener('click', () => {
         document.getElementById('importFile').click();
     });
 
-    // Gestion de la sélection du fichier
-    document.getElementById('importFile').addEventListener('change', async function (event) {
+    document.getElementById('importFile')?.addEventListener('change', async function () {
         const statusEl = document.getElementById('importStatus');
         statusEl.textContent = "Importing... Please wait...";
         statusEl.style.color = "blue";
-
         try {
             await importerBaseDeDonnees(this);
-            statusEl.textContent = "Import success ! Please wait..";
+            statusEl.textContent = "Import success ! Reloading...";
             statusEl.style.color = "green";
-
-            // Recharger la page après un délai court
-            setTimeout(() => {
-                location.reload();
-            }, 1500);
+            setTimeout(() => location.reload(), 1200);
         } catch (error) {
             statusEl.textContent = `Error: ${error}`;
             statusEl.style.color = "red";
         }
     });
 
-    window.selectedOption = "DM"; // Valeur par défaut
-    updateCompteurRestants();
-    afficherChannelAleatoire();
+    // Init raccourcis
+    initShortcuts(
+        {
+            random: { fn: afficherChannelAleatoire, label: 'Random', color: '#3b82f6' },
+            keep:   { fn: garderChannel,           label: 'Keep',   color: '#16a34a' },
+            delete: { fn: supprimerChannel,        label: 'Delete', color: '#dc2626' },
+            undo:   { fn: annulerDerniereAction,   label: 'Undo',   color: '#f59e0b' },
+            export: { fn: exporterBaseDeDonnees,   label: 'Export', color: '#6366f1' }
+        },
+        DEFAULT_SHORTCUTS
+    );
 
-    // ---- INIT SHORTCUTS / OVERLAY ----
-    initShortcuts({
-        ' ': { fn: afficherChannelAleatoire, label: 'Random', color: '#3b82f6' },
-        'c': { fn: garderChannel,           label: 'Keep',   color: '#16a34a' },
-        's': { fn: supprimerChannel,        label: 'Delete', color: '#dc2626' },
-        'w': { fn: annulerDerniereAction,   label: 'Undo',   color: '#f59e0b' },
-        'e': { fn: exporterBaseDeDonnees,   label: 'Export', color: '#6366f1' }
+    // Remplir inputs existants avec la config actuelle
+    hydrateShortcutInputs();
+
+    // Gestion dynamique des inputs
+    document.querySelectorAll('.shortcut-input').forEach(inp => {
+        inp.addEventListener('keydown', (e) => {
+            e.preventDefault();
+            let key = e.key;
+            if (key === 'Tab' || key === 'Shift' || key === 'Control' || key === 'Alt' || key === 'Meta') return;
+            if (key === 'Escape') {
+                inp.blur();
+                return;
+            }
+            // Normalisation
+            if (key === ' ') key = ' ';
+            if (key.length === 1) key = key.toLowerCase();
+
+            const action = inp.dataset.action;
+            const ok = updateShortcut(action, key);
+            if (!ok) {
+                // Conflit
+                inp.classList.add('invalid');
+                flashMessage(inp, 'Conflict');
+                return;
+            }
+            inp.classList.remove('invalid');
+            inp.value = displayKey(key);
+        });
+        // Empêche saisie directe texte
+        inp.addEventListener('input', () => {
+            inp.value = '';
+        });
+        inp.addEventListener('focus', () => {
+            inp.select();
+        });
     });
 
+    document.getElementById('resetShortcuts')?.addEventListener('click', () => {
+        resetShortcuts(DEFAULT_SHORTCUTS);
+        hydrateShortcutInputs();
+    });
+
+    window.selectedOption = "DM";
+    updateCompteurRestants();
+    afficherChannelAleatoire();
 });
+
+function hydrateShortcutInputs() {
+    const cfg = getShortcutConfig();
+    document.querySelectorAll('.shortcut-input').forEach(inp => {
+        const act = inp.dataset.action;
+        const key = cfg[act] ?? '';
+        inp.value = displayKey(key);
+        inp.classList.remove('invalid');
+    });
+}
+
+function displayKey(k) {
+    if (k === ' ') return 'Space';
+    return (k || '').toUpperCase();
+}
+
+function flashMessage(el, text) {
+    const prev = el.placeholder;
+    el.placeholder = text;
+    setTimeout(() => { el.placeholder = prev; }, 1000);
+}
 
 document.getElementById('zipInput').addEventListener('change', async function (event) {
     const file = event.target.files[0];

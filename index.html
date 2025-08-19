@@ -65,26 +65,60 @@
         <!-- Popup for the settings -->
         <div id="settingsPopup" class="popupSettings hiddenSettings">
             <div class="popupSettings-content">
+                <img width="100" src="/img/Logo_DBD_White.svg" alt="Logo">
                 <h2>Settings</h2>
-                <div class="backup-controls">
-                    <a href="#" id="exportButton" class="exportButton btn">Export the database</a>
-                    <a href="#" id="importButton" class="importButton btn">Import the database</a>
+                <p>Configure your shortcuts and manage your database.</p>
+                <div class="settings-left">
+                    <div class="backup-controls">
+                        <a href="#" id="exportButton" class="exportButton btn">Export the database</a>
+                        <a href="#" id="importButton" class="importButton btn">Import the database</a>
 
-                    <!-- Input caché pour la sélection de fichier -->
-                    <input type="file" id="importFile" accept="application/json" style="display: none;" />
+                        <!-- Input caché pour la sélection de fichier -->
+                        <input type="file" id="importFile" accept="application/json" style="display: none;" />
 
-                    <!-- Message de statut pour l'utilisateur -->
-                    <div id="importStatus" style="margin-top: 10px;"></div>
+                        <!-- Message de statut pour l'utilisateur -->
+                        <div id="importStatus" style="margin-top: 10px;"></div>
+                    </div>
+                    <a href="#" id="deleteDbButton" class="deleteDbButton btn">Delete the database</a>
+                    <a target="_blank" href="https://github.com/FilouzMC/discord-bulk-delete" class="ghButton btn">
+                        <img src="/img/icons/github.svg" alt="GitHub">
+                        GitHub</a>
+                    </a>
                 </div>
-                <a href="#" id="deleteDbButton" class="deleteDbButton btn">Delete the database</a>
-                <a href="#" id="closeSettings" class="closeSettings btn">
-                    <img src="/img/icons/close.svg" alt="Close">
-                    Close
-                </a>
-                <a target="_blank" href="https://github.com/FilouzMC/discord-bulk-delete" class="ghButton btn">
-                    <img src="/img/icons/github.svg" alt="GitHub">
-                    GitHub</a>
-                </a>            </div>
+                <div class="settings-right">
+                    <h3 style="margin-top:25px;">Keyboard Shortcuts</h3>
+                    <p style="font-size:12px;opacity:.7;margin-top:4px;">Click a field then press a key. Space =
+                        Spacebar.
+                        Saved instantly.</p>
+                    <div class="shortcut-settings">
+                        <div class="shortcut-row">
+                            <label>Random</label>
+                            <input type="text" class="shortcut-input" data-action="random" maxlength="1" />
+                        </div>
+                        <div class="shortcut-row">
+                            <label>Keep</label>
+                            <input type="text" class="shortcut-input" data-action="keep" maxlength="1" />
+                        </div>
+                        <div class="shortcut-row">
+                            <label>Delete</label>
+                            <input type="text" class="shortcut-input" data-action="delete" maxlength="1" />
+                        </div>
+                        <div class="shortcut-row">
+                            <label>Undo</label>
+                            <input type="text" class="shortcut-input" data-action="undo" maxlength="1" />
+                        </div>
+                        <div class="shortcut-row">
+                            <label>Export</label>
+                            <input type="text" class="shortcut-input" data-action="export" maxlength="1" />
+                        </div>
+                        <a href="#" id="resetShortcuts" class="btn">Reset defaults</a>
+                    </div>
+                    <a href="#" id="closeSettings" class="closeSettings btn" style="margin-top: 15px;">
+                        <img src="/img/icons/close.svg" alt="Close">
+                        Close
+                    </a>
+                </div>
+            </div>
         </div>
 
         <!-- Popup for import Discord's archive -->

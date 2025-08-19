@@ -4,15 +4,26 @@ let _shortcutsInit = false;
 let _overlay;
 let _overlayTimer;
 let _bindings = {};
+let _actionMeta = {}; // { actionName: { fn,label,color } }
+let _keyByAction = {}; // { actionName: key }
+let _actionByKey = {}; // { key: actionName }
 
-export function initShortcuts(bindings) {
+const STORAGE_KEY = 'shortcutConfigV1';
+
+export function initShortcuts(actionMeta, initialActionToKey) {
+    // actionMeta: { random:{fn,label,color}, keep:{...}, ... }
+    _actionMeta = actionMeta;
+    // Charger config sauvegardée ou utiliser celle passée
+    const saved = loadConfig();
+    _keyByAction = saved || { ...initialActionToKey };
+    rebuildKeyIndex();
+
     if (_shortcutsInit) {
-        // Mise à jour dynamique des bindings si déjà initialisé
-        _bindings = { ..._bindings, ...bindings };
+        rebuildBindings();
         return;
     }
     _shortcutsInit = true;
-    _bindings = { ...bindings };
+    rebuildBindings();
 
     // Crée l'overlay
     _overlay = document.createElement('div');
@@ -26,12 +37,12 @@ export function initShortcuts(bindings) {
 
         let key = e.key.toLowerCase();
         if (key === 'spacebar') key = ' ';
-        const binding = _bindings[key];
-        if (!binding) return;
+        const action = _actionByKey[key];
+        if (!action) return;
 
+        const binding = _bindings[key];
         e.preventDefault();
         if (e.repeat) return;
-
         try {
             binding.fn?.();
         } catch (err) {
@@ -41,12 +52,83 @@ export function initShortcuts(bindings) {
     });
 }
 
-export function addShortcut(key, fn, label, color = '#3b82f6') {
-    _bindings[key.toLowerCase()] = { fn, label, color };
+export function updateShortcut(actionName, newKey) {
+    actionName = actionName.toLowerCase();
+    newKey = normalizeKey(newKey);
+    if (!_actionMeta[actionName]) return false;
+
+    // Retirer précédent key si occupé
+    const oldKey = _keyByAction[actionName];
+    if (oldKey) delete _actionByKey[oldKey];
+
+    // Si la nouvelle touche est déjà utilisée par une autre action -> swap ou refuse
+    const occupiedAction = _actionByKey[newKey];
+    if (occupiedAction) {
+        // Simple: on refuse (retourne false)
+        return false;
+    }
+
+    _keyByAction[actionName] = newKey;
+    _actionByKey[newKey] = actionName;
+    saveConfig(_keyByAction);
+    rebuildBindings();
+    return true;
 }
 
-export function removeShortcut(key) {
-    delete _bindings[key.toLowerCase()];
+export function resetShortcuts(defaults) {
+    _keyByAction = { ...defaults };
+    rebuildKeyIndex();
+    saveConfig(_keyByAction);
+    rebuildBindings();
+}
+
+export function getShortcutConfig() {
+    return { ..._keyByAction };
+}
+
+function rebuildBindings() {
+    _bindings = {};
+    Object.entries(_keyByAction).forEach(([action, key]) => {
+        const meta = _actionMeta[action];
+        if (!meta) return;
+        _bindings[key] = {
+            fn: meta.fn,
+            label: meta.label,
+            color: meta.color
+        };
+    });
+}
+
+function rebuildKeyIndex() {
+    _actionByKey = {};
+    Object.entries(_keyByAction).forEach(([act, key]) => {
+        if (key) _actionByKey[key] = act;
+    });
+}
+
+function normalizeKey(k) {
+    if (!k) return '';
+    if (k === ' ') return ' '; // space
+    return k.toLowerCase().slice(0, 1);
+}
+
+function loadConfig() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        const obj = JSON.parse(raw);
+        return obj;
+    } catch {
+        return null;
+    }
+}
+
+function saveConfig(cfg) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg));
+    } catch (e) {
+        console.warn('Impossible de sauvegarder les raccourcis', e);
+    }
 }
 
 function showOverlay(label, color) {
@@ -62,7 +144,6 @@ function showOverlay(label, color) {
 function isColorLight(hex) {
     const h = (hex || '').replace('#', '');
     if (h.length === 3) {
-        // #abc -> #aabbcc
         const r = h[0], g = h[1], b = h[2];
         return isColorLight(r + r + g + g + b + b);
     }

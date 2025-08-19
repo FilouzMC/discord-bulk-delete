@@ -253,7 +253,7 @@ select::-ms-expand {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(30, 31, 35, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -261,7 +261,7 @@ select::-ms-expand {
 }
 
 /* Contenu de la popup */
-.popupSettings-content {
+.settings-content {
     background: #323339;
     padding: 20px;
     border-radius: 8px;
@@ -507,7 +507,7 @@ a.ghButton img {
     font-size: 0.85em;
 }
 
-/* Overlay */
+/* Shortcut Overlay */
 #shortcutOverlay {
     position: fixed;
     top: 50%;
@@ -531,4 +531,52 @@ a.ghButton img {
 #shortcutOverlay.show {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+}
+
+/* Shortcut Settings */
+.shortcut-settings {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.shortcut-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background:#2d2f34;
+    padding:6px 10px;
+    border-radius:6px;
+}
+.shortcut-row label {
+    flex:0 0 70px;
+    font-size:14px;
+    font-weight:600;
+    color:#ddd;
+}
+.shortcut-row input.shortcut-input {
+    flex:1;
+    background:#1f2124;
+    border:1px solid #3a3d44;
+    padding:6px 8px;
+    border-radius:4px;
+    color:#fff;
+    font-size:14px;
+    text-transform:uppercase;
+    text-align:center;
+    cursor:pointer;
+}
+.shortcut-row input.shortcut-input:focus {
+    outline:2px solid #3b82f6;
+    border-color:#3b82f6;
+}
+.shortcut-row input.shortcut-input.invalid {
+    outline:2px solid #dc2626;
+    border-color:#dc2626;
+}
+#resetShortcuts {
+    background:#444;
+}
+#resetShortcuts:hover {
+    background:#555;
 }
