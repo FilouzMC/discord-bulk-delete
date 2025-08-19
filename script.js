@@ -3,7 +3,7 @@ import { afficherChannelAleatoire, updateCompteurRestants } from './js/randomCha
 import { garderChannel, supprimerChannel, annulerDerniereAction } from './js/transfer.js';
 import { telechargerChannelsToDelete, exporterBaseDeDonnees, supprimerBaseDeDonnees, importerBaseDeDonnees } from './js/db.js';
 import { verifierPremiereConnexion, ouvrirSettings, fermerSettings } from './js/popup.js';
-import { initShortcuts, updateShortcut, resetShortcuts, getShortcutConfig } from './js/shortcuts.js';
+import { initShortcuts, updateShortcut, resetShortcuts, getShortcutConfig, hydrateShortcutInputs, displayKey, flashMessage} from './js/shortcuts.js';
 
 const DEFAULT_SHORTCUTS = {
     random: ' ',
@@ -48,12 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Init raccourcis
     initShortcuts(
         {
-            random: { fn: afficherChannelAleatoire, label: 'Random', color: '#3b82f6' },
-            keep:   { fn: garderChannel,           label: 'Keep',   color: '#16a34a' },
-            delete: { fn: supprimerChannel,        label: 'Delete', color: '#dc2626' },
-            undo:   { fn: annulerDerniereAction,   label: 'Undo',   color: '#f59e0b' },
-            export: { fn: exporterBaseDeDonnees,   label: 'Export', color: '#6366f1' }
-        },
+            random: { fn: afficherChannelAleatoire, label: 'Random', color: '#E7AA00' },
+            keep:   { fn: garderChannel,           label: 'Keep',   color: '#3498db' },
+            delete: { fn: supprimerChannel,        label: 'Delete', color: '#e74c3c' },
+            undo:   { fn: annulerDerniereAction,   label: 'Undo',   color: '#7f8c8d' }        },
         DEFAULT_SHORTCUTS
     );
 
@@ -103,27 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCompteurRestants();
     afficherChannelAleatoire();
 });
-
-function hydrateShortcutInputs() {
-    const cfg = getShortcutConfig();
-    document.querySelectorAll('.shortcut-input').forEach(inp => {
-        const act = inp.dataset.action;
-        const key = cfg[act] ?? '';
-        inp.value = displayKey(key);
-        inp.classList.remove('invalid');
-    });
-}
-
-function displayKey(k) {
-    if (k === ' ') return 'Space';
-    return (k || '').toUpperCase();
-}
-
-function flashMessage(el, text) {
-    const prev = el.placeholder;
-    el.placeholder = text;
-    setTimeout(() => { el.placeholder = prev; }, 1000);
-}
 
 document.getElementById('zipInput').addEventListener('change', async function (event) {
     const file = event.target.files[0];

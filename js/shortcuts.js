@@ -154,3 +154,24 @@ function isColorLight(hex) {
     const l = 0.299 * r + 0.587 * g + 0.114 * b;
     return l > 160;
 }
+
+export function hydrateShortcutInputs() {
+    const cfg = getShortcutConfig();
+    document.querySelectorAll('.shortcut-input').forEach(inp => {
+        const act = inp.dataset.action;
+        const key = cfg[act] ?? '';
+        inp.value = displayKey(key);
+        inp.classList.remove('invalid');
+    });
+}
+
+export function displayKey(k) {
+    if (k === ' ') return 'Space';
+    return (k || '').toUpperCase();
+}
+
+export function flashMessage(el, text) {
+    const prev = el.placeholder;
+    el.placeholder = text;
+    setTimeout(() => { el.placeholder = prev; }, 1000);
+}
