@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         statusEl.textContent = "Importing... Please wait...";
         statusEl.style.color = "blue";
         try {
+            await supprimerBaseDeDonnees();
             await importerBaseDeDonnees(this);
             statusEl.textContent = "Import success ! Reloading...";
             statusEl.style.color = "green";
