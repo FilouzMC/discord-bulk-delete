@@ -4,7 +4,8 @@
 body {
     overflow: hidden;
     background-color: #323339;
-    height: 100vh; /* Force la hauteur à être égale à la hauteur de la fenêtre */
+    height: 100vh;
+    /* Force la hauteur à être égale à la hauteur de la fenêtre */
     margin: 0;
     font-family: OpenSans, Arial, sans-serif;
     color: white;
@@ -30,11 +31,14 @@ body {
 /* Select */
 select {
     padding: 10px;
-    border: 1px solid #666; /* Bordure grise foncée */
+    border: 1px solid #666;
+    /* Bordure grise foncée */
     border-radius: 5px;
     font-size: 16px;
-    color: #fff; /* Texte blanc */
-    background-color: #2b2c32; /* Fond gris foncé */
+    color: #fff;
+    /* Texte blanc */
+    background-color: #2b2c32;
+    /* Fond gris foncé */
     width: 200px;
     appearance: none;
     -webkit-appearance: none;
@@ -56,7 +60,8 @@ select:focus {
 
 /* Style pour la flèche en mode sombre */
 .select-wrapper::after {
-    color: #fff; /* Flèche blanche */
+    color: #fff;
+    /* Flèche blanche */
 }
 
 /* Style au focus */
@@ -175,12 +180,17 @@ select::-ms-expand {
 /* Div centrée en bas */
 .floating-div {
     position: fixed;
-    bottom: 20px; /* Distance du bas de la fenêtre */
-    right: 20px; /* Distance du côté droit de la fenêtre */
-    transform: none; /* Supprime la transformation horizontale */
+    bottom: 20px;
+    /* Distance du bas de la fenêtre */
+    right: 20px;
+    /* Distance du côté droit de la fenêtre */
+    transform: none;
+    /* Supprime la transformation horizontale */
     display: flex;
-    gap: 10px; /* Espacement entre les boutons */
-    background-color: #2c2d32; /* Couleur de fond */
+    gap: 10px;
+    /* Espacement entre les boutons */
+    background-color: #2c2d32;
+    /* Couleur de fond */
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -373,30 +383,38 @@ a.ghButton img {
 #main-container {
     display: flex;
     flex-direction: row;
-    gap: 10px; /* Espacement entre les colonnes */
-    height: 90vh; /* Prend toute la hauteur de la fenêtre */
+    gap: 10px;
+    /* Espacement entre les colonnes */
+    height: 90vh;
+    /* Prend toute la hauteur de la fenêtre */
     padding: 10px;
     box-sizing: border-box;
 }
 
 /* Section de la conversation */
 #conversation {
-    flex: 3; /* Prend 3/4 de l'espace */
-    background-color: #2c2d32; /* Fond sombre pour la conversation */
+    flex: 3;
+    /* Prend 3/4 de l'espace */
+    background-color: #2c2d32;
+    /* Fond sombre pour la conversation */
     padding: 5px;
     border-radius: 10px;
-    overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+    overflow-y: auto;
+    /* Ajoute un défilement si le contenu dépasse */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     color: white;
 }
 
 /* Section des informations */
 #infos {
-    flex: 1; /* Prend 1/4 de l'espace */
-    background-color: #1e1f23; /* Fond sombre pour la section des informations */
+    flex: 1;
+    /* Prend 1/4 de l'espace */
+    background-color: #1e1f23;
+    /* Fond sombre pour la section des informations */
     padding: 20px;
     border-radius: 10px;
-    overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+    overflow-y: auto;
+    /* Ajoute un défilement si le contenu dépasse */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     color: white;
     display: flex;
@@ -407,7 +425,8 @@ a.ghButton img {
 
 /* Style pour l'avatar */
 #infos .avatar img {
-    border-radius: 50%; /* Avatar arrondi */
+    border-radius: 50%;
+    /* Avatar arrondi */
     width: 100px;
     height: 100px;
     object-fit: cover;
@@ -429,51 +448,72 @@ a.ghButton img {
 /* Style pour chaque message */
 #conversation div {
     display: flex;
-    align-items: center; /* Centre verticalement l'avatar et le texte */
-    gap: 10px; /* Espacement entre l'avatar et le texte */
+    align-items: center;
+    /* Centre verticalement l'avatar et le texte */
+    gap: 10px;
+    /* Espacement entre l'avatar et le texte */
     padding: 10px;
-    margin: 10px 0; /* Espacement vertical entre les messages */
-    background-color: #3a3b41; /* Fond des messages */
-    border-radius: 8px; /* Coins arrondis pour les messages */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre légère pour les messages */
+    margin: 10px 0;
+    /* Espacement vertical entre les messages */
+    background-color: #3a3b41;
+    /* Fond des messages */
+    border-radius: 8px;
+    /* Coins arrondis pour les messages */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* Ombre légère pour les messages */
 }
 
 /* Style pour l'avatar dans les messages */
 .avatarMsg {
-    border-radius: 50%; /* Avatar arrondi */
-    width: 40px; /* Taille de l'avatar */
-    height: 40px; /* Taille de l'avatar */
-    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le cadre */
+    border-radius: 50%;
+    /* Avatar arrondi */
+    width: 40px;
+    /* Taille de l'avatar */
+    height: 40px;
+    /* Taille de l'avatar */
+    object-fit: cover;
+    /* Ajuste l'image pour qu'elle remplisse le cadre */
 }
 
 /* Style pour le texte dans les messages */
 #conversation div strong {
     font-weight: bold;
-    color: #ffffff; /* Couleur du nom d'utilisateur */
-    margin-right: 5px; /* Espacement après le nom */
+    color: #ffffff;
+    /* Couleur du nom d'utilisateur */
+    margin-right: 5px;
+    /* Espacement après le nom */
 }
 
 #conversation div span {
-    color: #fff; /* Couleur grise pour le texte des messages */
+    color: #fff;
+    /* Couleur grise pour le texte des messages */
 }
 
 #conversation div span a {
-    margin: 0; /* Supprime les marges */
-    font-size: 1rem; /* Taille du texte */
-    color: #7BB0F5; /* Couleur grise pour le texte des messages */
+    margin: 0;
+    /* Supprime les marges */
+    font-size: 1rem;
+    /* Taille du texte */
+    color: #7BB0F5;
+    /* Couleur grise pour le texte des messages */
 }
 
 /* Style pour la date d'envoi */
 #conversation div time {
-    margin-left: auto; /* Place la date à droite */
-    font-size: 0.8rem; /* Taille plus petite */
-    color: #8c8c8c; /* Couleur grise pour la date */
-    font-style: italic; /* Style italique pour différencier */
+    margin-left: auto;
+    /* Place la date à droite */
+    font-size: 0.8rem;
+    /* Taille plus petite */
+    color: #8c8c8c;
+    /* Couleur grise pour la date */
+    font-style: italic;
+    /* Style italique pour différencier */
 }
 
 #conversation,
 #infos {
-    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur */
+    box-sizing: border-box;
+    /* Inclut le padding et la bordure dans la largeur */
 }
 
 /* Style for the recipients list */
@@ -481,28 +521,38 @@ a.ghButton img {
     display: flex;
     margin-top: 10px;
     padding: 10px;
-    background-color: #2c2d32; /* Fond sombre pour la liste des participants */
+    background-color: #2c2d32;
+    /* Fond sombre pour la liste des participants */
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre légère pour les éléments de la liste */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* Ombre légère pour les éléments de la liste */
     text-align: left;
-    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le cadre */
-    cursor: pointer; /* Curseur pointeur pour indiquer que c'est cliquable */
-    gap: 10px; /* Espacement entre l'avatar et le texte */
-    align-items: center; /* Centre verticalement l'avatar et le texte */
+    object-fit: cover;
+    /* Ajuste l'image pour qu'elle remplisse le cadre */
+    cursor: pointer;
+    /* Curseur pointeur pour indiquer que c'est cliquable */
+    gap: 10px;
+    /* Espacement entre l'avatar et le texte */
+    align-items: center;
+    /* Centre verticalement l'avatar et le texte */
 }
 
 .recipient-info a {
-    color: #b0b0b0; /* Couleur grise pour le texte */
+    color: #b0b0b0;
+    /* Couleur grise pour le texte */
 }
 
 .recipient-avatar img {
     width: 50px;
-    border-radius: 50%; /* Avatar arrondi */
+    border-radius: 50%;
+    /* Avatar arrondi */
 }
 
 .you-tag {
-    color: #b0b0b0; /* Couleur bleue pour le tag "You" */
-    font-weight: 400; /* Met en gras le tag "You" */
+    color: #b0b0b0;
+    /* Couleur bleue pour le tag "You" */
+    font-weight: 400;
+    /* Met en gras le tag "You" */
     opacity: 0.9;
     font-size: 0.85em;
 }
@@ -520,7 +570,7 @@ a.ghButton img {
     background: #3b82f6;
     color: #fff;
     border-radius: 28px;
-    box-shadow: 0 8px 40px rgba(0,0,0,.45);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, .45);
     opacity: 0;
     pointer-events: none;
     z-index: 9999;
@@ -528,6 +578,7 @@ a.ghButton img {
     text-transform: uppercase;
     transition: opacity .12s ease, transform .12s ease;
 }
+
 #shortcutOverlay.show {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
@@ -540,43 +591,74 @@ a.ghButton img {
     flex-direction: column;
     gap: 6px;
 }
+
 .shortcut-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    background:#2d2f34;
-    padding:6px 10px;
-    border-radius:6px;
+    background: #2d2f34;
+    padding: 6px 10px;
+    border-radius: 6px;
 }
+
 .shortcut-row label {
-    flex:0 0 70px;
-    font-size:14px;
-    font-weight:600;
-    color:#ddd;
+    flex: 0 0 70px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ddd;
 }
+
 .shortcut-row input.shortcut-input {
-    flex:1;
-    background:#1f2124;
-    border:1px solid #3a3d44;
-    padding:6px 8px;
-    border-radius:4px;
-    color:#fff;
-    font-size:14px;
-    text-transform:uppercase;
-    text-align:center;
-    cursor:pointer;
+    flex: 1;
+    background: #1f2124;
+    border: 1px solid #3a3d44;
+    padding: 6px 8px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
 }
+
 .shortcut-row input.shortcut-input:focus {
-    outline:2px solid #3b82f6;
-    border-color:#3b82f6;
+    outline: 2px solid #3b82f6;
+    border-color: #3b82f6;
 }
+
 .shortcut-row input.shortcut-input.invalid {
-    outline:2px solid #dc2626;
-    border-color:#dc2626;
+    outline: 2px solid #dc2626;
+    border-color: #dc2626;
 }
+
 #resetShortcuts {
-    background:#444;
+    background: #444;
 }
+
 #resetShortcuts:hover {
-    background:#555;
+    background: #555;
+}
+
+/* Mobile-only warning banner (hidden on desktop) */
+.mobile-warning {
+    display: none;
+    /* hidden by default (desktop) */
+}
+
+@media (max-width: 500px) {
+    .mobile-warning {
+        display: block;
+        background: #fff3cd;
+        /* light amber */
+        border-bottom: 1px solid #f7d070;
+        color: #000000;
+        text-align: center;
+        padding: 10px 12px;
+        font-size: 16px;
+        line-height: 1.35;
+        position: sticky;
+        /* stays at top when scrolling */
+        top: 0;
+        z-index: 10000;
+    }
 }
