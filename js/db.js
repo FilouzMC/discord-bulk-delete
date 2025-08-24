@@ -87,30 +87,39 @@ export async function getItemFromIndexedDB(storeName, key) {
 // 📥 Exporter les channels à supprimer en format texte
 // 📥 Export channels to delete in text format
 export async function telechargerChannelsToDelete() {
-	const db = await openDB();
-	const tx = db.transaction(STORE_DELETE, "readonly");
-	const store = tx.objectStore(STORE_DELETE);
+	// Récupère tous les channels marqués à supprimer
+    const toDelete = await getAllFromIndexedDB(STORE_DELETE);
+    if (!toDelete || toDelete.length === 0) {
+        alert("No channels in the delete list!");
+        return;
+    }
 
-	const request = store.getAll();
+    // Pour chaque channelId, récupérer le doc messages (clé = channelId)
+    const rows = [];
+    for (const { id: channelId } of toDelete) {
+        const doc = await getItemFromIndexedDB(STORE_MESSAGES, channelId);
 
-	request.onsuccess = () => {
-		const entries = request.result;
-		if (!entries.length) {
-			alert("No channels in the delete list!");
-			return;
-		}
+        // doc.messages est un Array => extraire l'ID (robuste: id | ID | messageId | MessageID)
+        const ids = Array.isArray(doc?.messages)
+            ? doc.messages
+                .map(m => m?.id ?? m?.ID ?? m?.messageId ?? m?.MessageID)
+                .filter(Boolean)
+            : [];
 
-		const ids = entries.map(entry => entry.id);
-		const blob = new Blob([ids.join("\n")], { type: "text/plain" });
-		const url = URL.createObjectURL(blob);
+        rows.push(`${channelId}:\n${ids.join(', ')}\n`);
+    }
 
-		const a = document.createElement("a");
-		a.href = url;
-		a.download = "channels_to_delete.txt";
-		a.click();
+    const text = rows.join('\n'); // blocs séparés par une ligne vide
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
 
-		URL.revokeObjectURL(url);
-	};
+    const a = document.createElement('a');
+    const date = new Date().toISOString().split('T')[0];
+    a.href = url;
+    a.download = `channels_messages_${date}.txt`;
+    a.click();
+
+    URL.revokeObjectURL(url);
 }
 
 // 📤 Exporter toute la base de données et localStorage en fichier JSON
