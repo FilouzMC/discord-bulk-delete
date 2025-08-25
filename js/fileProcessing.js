@@ -1,18 +1,23 @@
 import { saveToIndexedDB, STORE_INDEX, STORE_CHANNELS, STORE_MESSAGES } from "./db.js";
 
 // Protège les snowflakes (IDs) en les convertissant en chaînes avant JSON.parse
+// Protect snowflake IDs to strings before JSON.parse
 function quoteSnowflakeNumbers(jsonText) {
     // 1) Clés connues (insensible à la casse + variantes)
+    // 1) Known keys (case-insensitive + variants)
     const keyPattern = /"(id|message_id|messageid|channel_id|channelid|guild_id|guildid|author_id|authorid|user_id|userid|owner_id|ownerid|application_id|applicationid|webhook_id|webhookid)"\s*:\s*(\d{16,})/gi;
     let out = jsonText.replace(keyPattern, '"$1":"$2"');
 
     // 2) Fallback: toute valeur numérique ≥16 chiffres (ex: IDs non prévus)
     //    Respecte la syntaxe JSON (garde la virgule/fermeture)
+    // 2) Fallback: any numeric value ≥16 digits (e.g. unforeseen IDs)
+    //    Respect JSON syntax (keep the comma/closing)
     const anyBigNumber = /:\s*(\d{16,})(\s*[,\}])/g;
     out = out.replace(anyBigNumber, ':"$1"$2');
 
     return out;
 }
+
 function safeParse(jsonText) {
     return JSON.parse(quoteSnowflakeNumbers(jsonText));
 }
